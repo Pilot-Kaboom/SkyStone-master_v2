@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import org.openftc.easyopencv.OpenCvCameraRotation;
+
 public abstract class AutoBot extends compiler {
     public Arm arm;
     public Lift lift;
@@ -15,6 +17,10 @@ public abstract class AutoBot extends compiler {
         sensor=new Sensors(this);
         drive.RunInPower();
         while(!isStarted() && !isStopRequested()){
+            sensor.webcam.openCameraDevice();
+            sensor.webcam.setPipeline(new VsionPipeline());
+            sensor.webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
+
             lift.resetEC();
             drive.resetEC();
             intake.lift(false,false,false);

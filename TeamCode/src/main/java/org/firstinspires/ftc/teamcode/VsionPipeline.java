@@ -38,6 +38,10 @@ public class VsionPipeline extends OpenCvPipeline{
         /*
          * Draw a simple box around the middle 1/2 of the entire frame
          */
+        Imgproc.rectangle(submat1,point1,point2, new Scalar(100,0,0),1);
+        Imgproc.rectangle(submat2,point3,point4, new Scalar(100,0,0),1);
+        Imgproc.rectangle(submat3,point5,point6, new Scalar(100,0,0),1);
+
         workingMat = input;
 
         submat1 = workingMat.submat(new Rect(point1,point2));

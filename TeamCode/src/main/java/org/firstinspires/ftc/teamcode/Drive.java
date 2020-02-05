@@ -1,7 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.AnalogSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+
+import java.util.Base64;
 
 public class Drive {
 
@@ -9,6 +12,10 @@ public class Drive {
     private final DcMotor FLM;
     private final DcMotor BLM;
     private final DcMotor FRM;
+    private final AnalogSensor re;
+    private final AnalogSensor le;
+    private final AnalogSensor be;
+
     private double odoR;
     private double odoF;
     private double odoR2;
@@ -22,6 +29,10 @@ public class Drive {
         BLM = adrive.hardwareMap.dcMotor.get("blm");
         FRM = adrive.hardwareMap.dcMotor.get("frm");
         FLM = adrive.hardwareMap.dcMotor.get("flm");
+        re = adrive.hardwareMap.get(AnalogSensor.class,"re");
+        le = adrive.hardwareMap.get(AnalogSensor.class,"le");
+        be = adrive.hardwareMap.get(AnalogSensor.class,"be");
+
 
         this.adrive=adrive;
 
@@ -33,10 +44,10 @@ public class Drive {
         BRM.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         FRM.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         adrive.idle();
-        FLM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        BLM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        BRM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        FRM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        FLM.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        BLM.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        BRM.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        FRM.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         adrive.idle();
     }
     public void RunInPower(){
@@ -54,7 +65,7 @@ public class Drive {
     }
 
     public double odoHeadding(){
-        return((FRM.getCurrentPosition()-FLM.getCurrentPosition())*.001290825);
+        return((re.readRawVoltage()-le.readRawVoltage())*.001290825);
     }
     public double odoForward(){
         return(((FRM.getCurrentPosition()+FLM.getCurrentPosition())*.5)*.0005737);

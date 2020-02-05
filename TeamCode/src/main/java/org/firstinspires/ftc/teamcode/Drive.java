@@ -9,6 +9,10 @@ public class Drive {
     private final DcMotor FLM;
     private final DcMotor BLM;
     private final DcMotor FRM;
+    private double odoR;
+    private double odoF;
+    private double odoR2;
+    private double odoF2;
     private double startx;
     private double distance;
     private final LinearOpMode adrive;
@@ -29,17 +33,17 @@ public class Drive {
         BRM.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         FRM.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         adrive.idle();
-        FLM.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        BLM.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        BRM.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        FRM.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        FLM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        BLM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        BRM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        FRM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         adrive.idle();
     }
     public void RunInPower(){
-        FLM.setMode(DcMotor.RunMode.RUN_USING_ENCODERS);
-        BLM.setMode(DcMotor.RunMode.RUN_USING_ENCODERS);
-        BRM.setMode(DcMotor.RunMode.RUN_USING_ENCODERS);
-        FRM.setMode(DcMotor.RunMode.RUN_USING_ENCODERS);
+        FLM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        BLM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        BRM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        FRM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         adrive.idle();
     }
     public void StopMotors(){
@@ -50,7 +54,7 @@ public class Drive {
     }
 
     public double odoHeadding(){
-        return((FRM.getCurrentPosition()-FLM.getCurrentPosition())*.0005737);
+        return((FRM.getCurrentPosition()-FLM.getCurrentPosition())*.001290825);
     }
     public double odoForward(){
         return(((FRM.getCurrentPosition()+FLM.getCurrentPosition())*.5)*.0005737);
@@ -59,10 +63,14 @@ public class Drive {
         return(((BRM.getCurrentPosition())*.0005737)-(odoHeadding()*.5));
     }
     public double odoX(){
-        return ((odoRight()*Math.cos(odoHeadding()))+(odoForward()*Math.sin(odoHeadding())))+startx;
+        odoR2 = odoRight()-odoR;
+        odoF2=odoForward()-odoF;
+        odoR = odoRight();
+        odoF=odoForward();
+        return ((odoR2*Math.cos(odoHeadding()))+(odoR2*Math.sin(odoHeadding())))+startx;
     }
     public double odoY(){
-        return((odoForward()*Math.cos(odoHeadding()))+(odoRight()*Math.sin(odoHeadding())));
+        return((odoF2*Math.cos(odoHeadding()))+(odoR2*Math.sin(odoHeadding())));
     }
     public void odoDrive(double x, double y,double headding){
         distance=((Math.sqrt((x*x)+(y*y)))-(Math.sqrt((odoX()*odoX())+(odoY()*odoY()))));
@@ -86,6 +94,10 @@ public class Drive {
         adrive.telemetry.addData("odoX",odoX());
         adrive.telemetry.addData("odoY",odoY());
         adrive.telemetry.addData("odoDifference",distance);
+        adrive.telemetry.addData("odoF",odoF);
+        adrive.telemetry.addData("odoR",odoR);
+        adrive.telemetry.addData("odoF2",odoF2);
+        adrive.telemetry.addData("odoF2",odoR2);
 
         adrive.telemetry.addData("right module", FRM.getCurrentPosition());
         adrive.telemetry.addData("left module", FLM.getCurrentPosition());

@@ -6,15 +6,6 @@ import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.TouchSensor;
 
-import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-import org.opencv.core.Mat;
-import org.opencv.core.Point;
-import org.opencv.core.Scalar;
-import org.opencv.imgproc.Imgproc;
-import org.openftc.easyopencv.OpenCvCamera;
-import org.openftc.easyopencv.OpenCvCameraFactory;
-import org.openftc.easyopencv.OpenCvPipeline;
 
 public class Sensors {
 /*
@@ -22,7 +13,6 @@ public class Sensors {
     private final DistanceSensor ld;
     private final DistanceSensor fd;
     private final DistanceSensor bd;*/
-    public final OpenCvCamera webcam;
     private final ColorSensor rc;
     private final ColorSensor lc;
     private final DigitalChannel block;
@@ -34,8 +24,6 @@ public class Sensors {
         fd = sensor.hardwareMap.get(DistanceSensor.class, "bd");
         rd = sensor.hardwareMap.get(DistanceSensor.class, "bd");
         ld = sensor.hardwareMap.get(DistanceSensor.class, "bd");*/
-        int cameraMonitorViewId = sensor.hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", sensor.hardwareMap.appContext.getPackageName());
-        webcam = OpenCvCameraFactory.getInstance().createWebcam(sensor.hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
 
         rc= sensor.hardwareMap.get(ColorSensor.class, "rc");
         lc= sensor.hardwareMap.get(ColorSensor.class, "lc");

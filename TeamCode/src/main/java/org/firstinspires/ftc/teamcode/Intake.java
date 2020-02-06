@@ -52,6 +52,7 @@ public class Intake {
             cap.setPosition(.5);
         }
     }
+    /*
     public double odoHeadding(){
         return((right.getCurrentPosition()-left.getCurrentPosition())*0.0012696639344);
     }
@@ -65,12 +66,12 @@ public class Intake {
         right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         intake.idle();
-    }
+    }*/
 
     public void telemetry(){
-        intake.telemetry.addData("odoForward",odoForward());
+        /*intake.telemetry.addData("odoForward",odoForward());
         intake.telemetry.addData("odoHeading",odoHeadding());
-
+*/
         intake.telemetry.addData("right up position",rightup.getPosition());
         intake.telemetry.addData("left up position",leftup.getPosition());
     }

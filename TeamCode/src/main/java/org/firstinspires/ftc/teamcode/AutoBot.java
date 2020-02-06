@@ -34,7 +34,7 @@ public abstract class AutoBot extends compiler {
             webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
 
             webcam.openCameraDevice();
-            webcam.setPipeline(new VsionPipeline());
+            webcam.setPipeline(vision);
             webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
             telemetry.addData("colorL", vision.avg1);
             telemetry.addData("colorC", vision.avg2);
@@ -43,7 +43,6 @@ public abstract class AutoBot extends compiler {
             telemetry.addData("StoneC", vision.stoneC());
             telemetry.addData("StoneR", vision.stoneR());
 
-            intake.resetEC();
             lift.resetEC();
             drive.resetEC();
             intake.lift(false,false,false);
@@ -56,10 +55,6 @@ public abstract class AutoBot extends compiler {
             lift.telem();
             intake.telemetry();
             telemetry.update();
-        }
-        if(isStarted()||isStopRequested()){
-            webcam.stopStreaming();
-            webcam.closeCameraDevice();
         }
     }
 

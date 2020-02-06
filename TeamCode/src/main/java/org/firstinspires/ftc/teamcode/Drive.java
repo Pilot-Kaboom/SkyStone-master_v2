@@ -12,6 +12,9 @@ public class Drive {
     private final DcMotor FLM;
     private final DcMotor BLM;
     private final DcMotor FRM;
+    private final DcMotor re;
+    private final DcMotor le;
+    private final DcMotor be;
 
     private double odoR;
     private double odoF;
@@ -26,7 +29,9 @@ public class Drive {
         BLM = adrive.hardwareMap.dcMotor.get("blm");
         FRM = adrive.hardwareMap.dcMotor.get("frm");
         FLM = adrive.hardwareMap.dcMotor.get("flm");
-
+        re = adrive.hardwareMap.dcMotor.get("rightintake");
+        le = adrive.hardwareMap.dcMotor.get("leftintake");
+        be = adrive.hardwareMap.dcMotor.get("leftlift");
 
         this.adrive=adrive;
 
@@ -37,11 +42,17 @@ public class Drive {
         BLM.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         BRM.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         FRM.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        re.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        le.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        be.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         adrive.idle();
         FLM.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         BLM.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         BRM.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         FRM.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        re.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        le.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        be.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         adrive.idle();
     }
     public void RunInPower(){
@@ -57,15 +68,15 @@ public class Drive {
         BLM.setPower(0);
         BRM.setPower(0);
     }
-    /*
+
     public double odoHeadding(){
-        return((FRM.getCurrentPosition()-FLM.getCurrentPosition())*.001290825);
+        return((re.getCurrentPosition()-le.getCurrentPosition())*0.0012696639344);
     }
     public double odoForward(){
-        return(((FRM.getCurrentPosition()+FLM.getCurrentPosition())*.5)*.0005737);
+        return(((re.getCurrentPosition()+le.getCurrentPosition())*.5)*.0005737);
     }
     public double odoRight(){
-        return(((BRM.getCurrentPosition())*.0005737)-(odoHeadding()*.5));
+        return(((be.getCurrentPosition())*.0005737)-(odoHeadding()*.5));
     }
     public double odoX(){
         odoR2 = odoRight()-odoR;
@@ -85,7 +96,7 @@ public class Drive {
         else{
 
         }
-    }*/
+    }
     public void teledrive(double forward, double right, double turnC){
         FLM.setPower(forward + right + turnC);
         FRM.setPower(-forward + right + turnC);
@@ -93,7 +104,7 @@ public class Drive {
         BRM.setPower(-forward - right + turnC);
     }
     public void ECtelem() {
-        /*
+
         adrive.telemetry.addData("odoForward",odoForward());
         adrive.telemetry.addData("odoRight",odoRight());
         adrive.telemetry.addData("odoHeading",odoHeadding());
@@ -104,7 +115,7 @@ public class Drive {
         adrive.telemetry.addData("odoR",odoR);
         adrive.telemetry.addData("odoF2",odoF2);
         adrive.telemetry.addData("odoF2",odoR2);
-*/
+
         adrive.telemetry.addData("right module", FRM.getCurrentPosition());
         adrive.telemetry.addData("left module", FLM.getCurrentPosition());
         adrive.telemetry.addData("back module", BRM.getCurrentPosition());

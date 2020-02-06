@@ -12,9 +12,6 @@ public class Drive {
     private final DcMotor FLM;
     private final DcMotor BLM;
     private final DcMotor FRM;
-    private final AnalogSensor re;
-    private final AnalogSensor le;
-    private final AnalogSensor be;
 
     private double odoR;
     private double odoF;
@@ -29,9 +26,6 @@ public class Drive {
         BLM = adrive.hardwareMap.dcMotor.get("blm");
         FRM = adrive.hardwareMap.dcMotor.get("frm");
         FLM = adrive.hardwareMap.dcMotor.get("flm");
-        re = adrive.hardwareMap.get(AnalogSensor.class,"re");
-        le = adrive.hardwareMap.get(AnalogSensor.class,"le");
-        be = adrive.hardwareMap.get(AnalogSensor.class,"be");
 
 
         this.adrive=adrive;
@@ -63,9 +57,9 @@ public class Drive {
         BLM.setPower(0);
         BRM.setPower(0);
     }
-
+    /*
     public double odoHeadding(){
-        return((re.readRawVoltage()-le.readRawVoltage())*.001290825);
+        return((FRM.getCurrentPosition()-FLM.getCurrentPosition())*.001290825);
     }
     public double odoForward(){
         return(((FRM.getCurrentPosition()+FLM.getCurrentPosition())*.5)*.0005737);
@@ -91,7 +85,7 @@ public class Drive {
         else{
 
         }
-    }
+    }*/
     public void teledrive(double forward, double right, double turnC){
         FLM.setPower(forward + right + turnC);
         FRM.setPower(-forward + right + turnC);
@@ -99,6 +93,7 @@ public class Drive {
         BRM.setPower(-forward - right + turnC);
     }
     public void ECtelem() {
+        /*
         adrive.telemetry.addData("odoForward",odoForward());
         adrive.telemetry.addData("odoRight",odoRight());
         adrive.telemetry.addData("odoHeading",odoHeadding());
@@ -109,7 +104,7 @@ public class Drive {
         adrive.telemetry.addData("odoR",odoR);
         adrive.telemetry.addData("odoF2",odoF2);
         adrive.telemetry.addData("odoF2",odoR2);
-
+*/
         adrive.telemetry.addData("right module", FRM.getCurrentPosition());
         adrive.telemetry.addData("left module", FLM.getCurrentPosition());
         adrive.telemetry.addData("back module", BRM.getCurrentPosition());

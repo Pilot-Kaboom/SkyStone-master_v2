@@ -29,7 +29,6 @@ public abstract class AutoBot extends compiler {
         intake=new Intake(this);
         sensor=new Sensors(this);
         vision = new VsionPipeline();
-        drive.RunInPower();
         while(!isStarted() && !isStopRequested()){
             int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
             webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
@@ -44,6 +43,7 @@ public abstract class AutoBot extends compiler {
             telemetry.addData("StoneC", vision.stoneC());
             telemetry.addData("StoneR", vision.stoneR());
 
+            intake.resetEC();
             lift.resetEC();
             drive.resetEC();
             intake.lift(false,false,false);
@@ -62,5 +62,6 @@ public abstract class AutoBot extends compiler {
             webcam.closeCameraDevice();
         }
     }
+
 
 }

@@ -13,15 +13,16 @@ public abstract class TeleBot extends compiler {
         drive=new Drive(this);
         intake=new Intake(this);
         sensor=new Sensors(this);
-        drive.RunInPower();
         while(!isStarted() && !isStopRequested()){
             lift.resetEC();
+            intake.resetEC();
             sensor.touchInit();
             arm.clawcon(false,true,false);
             arm.elbowcon(true,false,true, false, false);
             arm.wristcon(false,false,true, false,false);
             arm.telemetry();
             lift.telem();
+            drive.resetEC();
             drive.ECtelem();
             intake.telemetry();
             sensor.telem();

@@ -18,12 +18,12 @@ public class VsionPipeline extends OpenCvPipeline{
     Mat submat1 = new Mat();
     Mat submat2 = new Mat();
     Mat submat3 = new Mat();
-    Point point1 = new Point(40,120);
-    Point point2 = new Point(80,160);
-    Point point3 = new Point(120,120);
-    Point point4 = new Point(160,160);
-    Point point5 = new Point(240,120);
-    Point point6 = new Point(280,160);
+    Point point1 = new Point(40,125);
+    Point point2 = new Point(60,165);
+    Point point3 = new Point(120,135);
+    Point point4 = new Point(140,175);
+    Point point5 = new Point(200,145);
+    Point point6 = new Point(220,185);
     @Override
     public Mat processFrame(Mat input)
     {
@@ -38,11 +38,12 @@ public class VsionPipeline extends OpenCvPipeline{
         /*
          * Draw a simple box around the middle 1/2 of the entire frame
          */
+
+        workingMat = input;
+
         Imgproc.rectangle(workingMat,point1,point2, new Scalar(100,0,0),3);
         Imgproc.rectangle(workingMat,point3,point4, new Scalar(100,0,0),3);
         Imgproc.rectangle(workingMat,point5,point6, new Scalar(100,0,0),3);
-
-        workingMat = input;
 
         submat1 = workingMat.submat(new Rect(point1,point2));
         submat2 = workingMat.submat(new Rect(point3,point4));

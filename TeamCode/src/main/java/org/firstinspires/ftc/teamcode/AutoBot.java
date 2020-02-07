@@ -20,6 +20,9 @@ public abstract class AutoBot extends compiler {
     public Intake intake;
     public Sensors sensor;
     public VsionPipeline vision;
+    public boolean rs;
+    public boolean cs;
+    public boolean ls;
     OpenCvCamera webcam;
     @Override
     public void initiate(){
@@ -29,19 +32,24 @@ public abstract class AutoBot extends compiler {
         intake=new Intake(this);
         sensor=new Sensors(this);
         vision = new VsionPipeline();
-        while(!isStarted() && !isStopRequested()){
-            int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
-            webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
+        int cameraMonitorViewId = hardwareMap.appContext.getResources().getIdentifier("cameraMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+        webcam = OpenCvCameraFactory.getInstance().createWebcam(hardwareMap.get(WebcamName.class, "Webcam 1"), cameraMonitorViewId);
 
-            webcam.openCameraDevice();
-            webcam.setPipeline(vision);
-            webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
+        webcam.openCameraDevice();
+        webcam.setPipeline(vision);
+        webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
+        while(!isStarted() && !isStopRequested() && !opModeIsActive()){
+
+            rs=vision.stoneC();
+            cs=vision.stoneL();
+            ls=vision.stoneR();
+
             telemetry.addData("colorL", vision.avg1);
             telemetry.addData("colorC", vision.avg2);
             telemetry.addData("colorR", vision.avg3);
-            telemetry.addData("StoneL", vision.stoneL());
-            telemetry.addData("StoneC", vision.stoneC());
-            telemetry.addData("StoneR", vision.stoneR());
+            telemetry.addData("StoneL", ls);
+            telemetry.addData("StoneC", cs);
+            telemetry.addData("StoneR", rs);
 
             lift.resetEC();
             drive.resetEC();

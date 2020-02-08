@@ -22,6 +22,7 @@ public class Drive {
     private double odoF2;
     private double startx;
     private double distance;
+    private double forwardreset;
     private final LinearOpMode adrive;
 
     public Drive(LinearOpMode adrive){
@@ -54,6 +55,12 @@ public class Drive {
         le.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         be.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
         adrive.idle();
+        FLM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        FRM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        BLM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        BRM.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        adrive.idle();
+
     }
     public void RunInPower(){
         FLM.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
@@ -70,15 +77,20 @@ public class Drive {
     }
 
     public double odoHeadding(){
-        return((re.getCurrentPosition()-le.getCurrentPosition())*0.0012696639344);
+        return((re.getCurrentPosition()-le.getCurrentPosition())*.0025393278688);
     }
     public double odoForward(){
-        return(((re.getCurrentPosition()+le.getCurrentPosition())*.5)*.0005737);
+        return(((re.getCurrentPosition()+le.getCurrentPosition())*.5)*.0005737)-forwardreset;
+    }
+    public void resetFEC(){
+        forwardreset=forwardreset+odoForward();
     }
     public double odoRight(){
         return(((be.getCurrentPosition())*.0005737)-(odoHeadding()*.5));
     }
-    public double odoX(){
+
+
+    /*public double odoX(){
         odoR2 = odoRight()-odoR;
         odoF2=odoForward()-odoF;
         odoR = odoRight();
@@ -86,10 +98,26 @@ public class Drive {
         return ((odoR2*Math.cos(odoHeadding()))+(odoR2*Math.sin(odoHeadding())))+startx;
     }
     public double odoY(){
-        return((odoF2*Math.cos(odoHeadding()))+(odoR2*Math.sin(odoHeadding())));
+        return ((odoF2*Math.cos(odoHeadding()))+(odoR2*Math.sin(odoHeadding())));
+    }*/
+    public void turnforward(double distanceForward, double turn, double speed){
+
+        if ((distanceForward-odoForward())<10){
+            teledrive((distanceForward-(odoForward())*speed*.04),0,((turn-odoHeadding())*speed*-.017));
+        }
+        else if ((turn-odoHeadding())<18){
+            teledrive((distanceForward-(odoForward())*speed*.1),0,((turn-odoHeadding())*speed*-.0097));
+        }
+        else if (((turn-odoHeadding())<18)&&((distanceForward-odoForward())<10)){
+            teledrive((distanceForward-(odoForward())*speed*.04),0,((turn-odoHeadding())*speed*-.0097));
+        }
+        else{
+            teledrive((distanceForward-(odoForward())*speed*.1),0,((turn-odoHeadding())*speed*-.017));
+        }
     }
     public void odoDrive(double x, double y,double headding){
-        distance=((Math.sqrt((x*x)+(y*y)))-(Math.sqrt((odoX()*odoX())+(odoY()*odoY()))));
+        //distance=((Math.sqrt((x*x)+(y*y)))-(Math.sqrt((odoX()*odoX())+(odoY()*odoY()))));
+
         if(distance<10){
 
         }
@@ -108,8 +136,8 @@ public class Drive {
         adrive.telemetry.addData("odoForward",odoForward());
         adrive.telemetry.addData("odoRight",odoRight());
         adrive.telemetry.addData("odoHeading",odoHeadding());
-        adrive.telemetry.addData("odoX",odoX());
-        adrive.telemetry.addData("odoY",odoY());
+        //adrive.telemetry.addData("odoX",odoX());
+        //adrive.telemetry.addData("odoY",odoY());
         adrive.telemetry.addData("odoDifference",distance);
         adrive.telemetry.addData("odoF",odoF);
         adrive.telemetry.addData("odoR",odoR);
@@ -134,7 +162,7 @@ public class Drive {
      BLM.setPower(gamepad1.left_stick_y + gamepad1.left_stick_x +(gamepad1.right_stick_y*.35 + gamepad1.right_stick_x*.35)+ (gamepad1.left_trigger + -gamepad1.right_trigger* .5));
 
     */
-/*
+
     public int bect(){
         return( FRM.getCurrentPosition()/4 + BRM.getCurrentPosition()/4 + -FLM.getCurrentPosition()/4 +  -BLM.getCurrentPosition() / 4);
     }
@@ -172,7 +200,7 @@ public class Drive {
         else{
             return ((goal-fect())*tune);
         }
-    }*/
+    }
     /*
     public void goForward(double power){
         FLM.setPower(-power);

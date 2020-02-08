@@ -65,7 +65,7 @@ public class VsionPipeline extends OpenCvPipeline{
         return (avg1<avg2 && avg1<avg3);
     }
     public boolean stoneC(){
-        return (avg2<avg1 && avg1<avg3);
+        return (avg2<avg1 && avg2<avg3);
     }
     public boolean stoneR(){
         return (avg3<avg2 && avg3<avg1);

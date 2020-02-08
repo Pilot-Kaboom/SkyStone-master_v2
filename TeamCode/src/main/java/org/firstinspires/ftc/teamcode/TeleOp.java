@@ -54,6 +54,9 @@ public class TeleOp extends TeleBot {
 
                 intake.lift(gamepad1.x,false,false);
             }
+            if(gamepad1.b){
+                drive.resetFEC();
+            }
             /*
             else if(gamepad2.left_trigger>.2){
                 lift.grab(gamepad2.left_trigger>.2,arm.elbowPosition()<.5);

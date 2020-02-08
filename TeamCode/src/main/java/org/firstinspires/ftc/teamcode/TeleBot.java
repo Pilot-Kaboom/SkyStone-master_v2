@@ -13,7 +13,7 @@ public abstract class TeleBot extends compiler {
         drive=new Drive(this);
         intake=new Intake(this);
         sensor=new Sensors(this);
-        while(!isStarted() && !isStopRequested()){
+        while(!isStarted() && !isStopRequested() && !opModeIsActive()){
             lift.resetEC();
 
             sensor.touchInit();

@@ -289,7 +289,5 @@ public class BlueStoneAuto extends AutoBot{
         drive.resetFEC();
         time.reset();
 
-
-
     }
 }

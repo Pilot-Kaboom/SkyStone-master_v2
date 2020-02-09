@@ -40,10 +40,10 @@ public class Arm {
             wrist.setPosition(.45+wristcalibration);
         }
         else{
-            wrist.setPosition(.45);
+            wrist.setPosition(.455);
         }
         if (init){
-            wrist.setPosition(.45);
+            wrist.setPosition(.455);
         }
     }
     public void cap(){

@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.AnalogSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import java.util.Base64;
 
@@ -22,7 +23,9 @@ public class Drive {
     private double odoF2;
     private double startx;
     private double distance;
+    private double turnDifference;
     private double forwardreset;
+    private ElapsedTime time;
     private final LinearOpMode adrive;
 
     public Drive(LinearOpMode adrive){
@@ -100,20 +103,49 @@ public class Drive {
     public double odoY(){
         return ((odoF2*Math.cos(odoHeadding()))+(odoR2*Math.sin(odoHeadding())));
     }*/
-    public void turnforward(double distanceForward, double turn, double speed){
+    public void turnforward(double distanceForward, double turn, double speed, double time){
 
-        if ((distanceForward-odoForward())<10){
-            teledrive((distanceForward-(odoForward())*speed*.04),0,((turn-odoHeadding())*speed*-.017));
-        }
-        else if ((turn-odoHeadding())<18){
-            teledrive((distanceForward-(odoForward())*speed*.1),0,((turn-odoHeadding())*speed*-.0097));
-        }
-        else if (((turn-odoHeadding())<18)&&((distanceForward-odoForward())<10)){
-            teledrive((distanceForward-(odoForward())*speed*.04),0,((turn-odoHeadding())*speed*-.0097));
+        if((distanceForward-odoForward())>1){
+            distance=1;
         }
         else{
-            teledrive((distanceForward-(odoForward())*speed*.1),0,((turn-odoHeadding())*speed*-.017));
+            distance=distanceForward-odoForward();
         }
+        if((turn-odoHeadding())>1){
+            turnDifference=1;
+        }
+        else{
+            turnDifference=turn-odoHeadding();
+        }
+        if(time<.5){
+            if ((distanceForward-odoForward())<12){
+                teledrive((distance*speed*.1*(time*2)),0,((turnDifference)*speed*-.14*(time*2)));
+            }
+            else if ((turn-odoHeadding())<23){
+                teledrive((distance*speed*.2*(time*2)),0,((turnDifference)*speed*-.095*(time*2)));
+            }
+            else if (((turn-odoHeadding())<23)&&((distanceForward-odoForward())<12)){
+                teledrive((distance*speed*.1*(time*2)),0,((turnDifference)*speed*-.095*(time*2)));
+            }
+            else{
+                teledrive((distance*speed*.2*(time*2)),0,((turnDifference)*speed*-.14*(time*2)));
+            }
+        }
+        else{
+            if ((distanceForward-odoForward())<12){
+                teledrive((distance*speed*.1),0,((turnDifference)*speed*-.014));
+            }
+            else if ((turn-odoHeadding())<23){
+                teledrive((distance*speed*.2),0,((turnDifference)*speed*-.0095));
+            }
+            else if (((turn-odoHeadding())<23)&&((distanceForward-odoForward())<12)){
+                teledrive((distance*speed*.1),0,((turnDifference)*speed*-.0095));
+            }
+            else{
+                teledrive((distance*speed*.2),0,((turnDifference)*speed*-.014));
+            }
+        }
+
     }
     public void odoDrive(double x, double y,double headding){
         //distance=((Math.sqrt((x*x)+(y*y)))-(Math.sqrt((odoX()*odoX())+(odoY()*odoY()))));

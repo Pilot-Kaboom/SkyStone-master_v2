@@ -104,46 +104,39 @@ public class Drive {
         return ((odoF2*Math.cos(odoHeadding()))+(odoR2*Math.sin(odoHeadding())));
     }*/
     public void turnforward(double distanceForward, double turn, double speed, double time){
-
-        if((distanceForward-odoForward())>1){
+//forward
+        if(((distanceForward-odoForward())*.07)>1){
             distance=1;
         }
-        else{
-            distance=distanceForward-odoForward();
+        else if(((distanceForward-odoForward())*.07)<-1){
+            distance=-1;
         }
-        if((turn-odoHeadding())>1){
+        else if((distanceForward-odoForward())<10 && distanceForward-odoForward()>-10){
+            distance=(distanceForward-odoForward())*.05;
+        }
+        else{
+            distance=(distanceForward-odoForward())*.07;
+        }
+//turn
+        if(((turn-odoHeadding())*-.014)>1){
             turnDifference=1;
         }
-        else{
-            turnDifference=turn-odoHeadding();
+        else if(((turn-odoHeadding())*-.014)<-1){
+            turnDifference=-1;
         }
-        if(time<.5){
-            if ((distanceForward-odoForward())<12){
-                teledrive((distance*speed*.1*(time*2)),0,((turnDifference)*speed*-.14*(time*2)));
-            }
-            else if ((turn-odoHeadding())<23){
-                teledrive((distance*speed*.2*(time*2)),0,((turnDifference)*speed*-.095*(time*2)));
-            }
-            else if (((turn-odoHeadding())<23)&&((distanceForward-odoForward())<12)){
-                teledrive((distance*speed*.1*(time*2)),0,((turnDifference)*speed*-.095*(time*2)));
-            }
-            else{
-                teledrive((distance*speed*.2*(time*2)),0,((turnDifference)*speed*-.14*(time*2)));
-            }
+        else if((turn-odoHeadding())<23 && turn-odoHeadding()>-23){
+            turnDifference=(turn-odoHeadding())*-.01;
         }
         else{
-            if ((distanceForward-odoForward())<12){
-                teledrive((distance*speed*.1),0,((turnDifference)*speed*-.014));
-            }
-            else if ((turn-odoHeadding())<23){
-                teledrive((distance*speed*.2),0,((turnDifference)*speed*-.0095));
-            }
-            else if (((turn-odoHeadding())<23)&&((distanceForward-odoForward())<12)){
-                teledrive((distance*speed*.1),0,((turnDifference)*speed*-.0095));
-            }
-            else{
-                teledrive((distance*speed*.2),0,((turnDifference)*speed*-.014));
-            }
+            turnDifference=(turn-odoHeadding())*-.014;
+        }
+//time and drive
+        if(time<.25){
+            teledrive((distance*speed*(time*4)),0,((turnDifference)*speed*(time*4)));
+
+        }
+        else{
+            teledrive((distance*speed),0,((turnDifference)*speed));
         }
 
     }

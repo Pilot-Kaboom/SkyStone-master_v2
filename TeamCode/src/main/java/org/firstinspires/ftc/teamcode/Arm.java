@@ -51,32 +51,31 @@ public class Arm {
         wrist.setPosition(.37);
     }
     //Elbow Elbow Elbow Elbow Elbow Elbow Elbow Elbow Elbow Elbow Elbow Elbow Elbow
-    public void elbowcon(boolean back, boolean highenough, boolean init, boolean increase, boolean decrease){
-        if(back&& elbowtime.seconds()>.5){
-            elbowback =!elbowback;
+    public void elbowcon(boolean back, boolean out, boolean init, boolean increase, boolean decrease) {
+        if (back && elbowtime.seconds() > .5) {
+            elbowback = !elbowback;
+            elbowtime.reset();
+        } else if (back) {
             elbowtime.reset();
         }
-        else if (back){
+        if (increase && elbowtime.seconds() > .1) {
+            elbowcalibration = elbowcalibration + .01;
+            elbowtime.reset();
+        } else if (decrease && elbowtime.seconds() > .1) {
+            elbowcalibration = elbowcalibration - .01;
             elbowtime.reset();
         }
-        if(increase && elbowtime.seconds()>.1){
-            elbowcalibration=elbowcalibration+.01;
-            elbowtime.reset();
-        }
-        else if(decrease && elbowtime.seconds()>.1){
-            elbowcalibration=elbowcalibration-.01;
-            elbowtime.reset();
-        }
-        if(elbowback && back){
+        if (elbowback && back) {
             elbow.setPosition(.95);
-        }
-        else if (elbowback) {
-            elbow.setPosition(.71);
+        } else if (elbowback) {
+            elbow.setPosition(.59);
         } else {
             elbow.setPosition(0);
         }
-        if(init){
+        if (init) {
             elbow.setPosition(0);
+        } else if (out){
+            elbow.setPosition(.9);
         }
     }
     public double elbowPosition(){

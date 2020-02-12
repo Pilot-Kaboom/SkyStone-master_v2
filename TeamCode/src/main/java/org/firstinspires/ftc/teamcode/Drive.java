@@ -105,34 +105,34 @@ public class Drive {
     }*/
     public void turnforward(double distanceForward, double turn, double speed, double time){
 //forward
-        if(((distanceForward-odoForward())*.07)>1){
+        if(((distanceForward-odoForward())*.06)>1){
             distance=1;
         }
-        else if(((distanceForward-odoForward())*.07)<-1){
+        else if(((distanceForward-odoForward())*.06)<-1){
             distance=-1;
         }
-        else if((distanceForward-odoForward())<10 && distanceForward-odoForward()>-10){
+        /*else if((distanceForward-odoForward())<10 && distanceForward-odoForward()>-10){
             distance=(distanceForward-odoForward())*.05;
-        }
+        }*/
         else{
             distance=(distanceForward-odoForward())*.07;
         }
 //turn
-        if(((turn-odoHeadding())*-.014)>1){
+        if(((turn-odoHeadding())*-.012)>1){
             turnDifference=1;
         }
-        else if(((turn-odoHeadding())*-.014)<-1){
+        else if(((turn-odoHeadding())*-.012)<-1){
             turnDifference=-1;
         }
-        else if((turn-odoHeadding())<23 && turn-odoHeadding()>-23){
+        /*else if((turn-odoHeadding())<23 && turn-odoHeadding()>-23){
             turnDifference=(turn-odoHeadding())*-.01;
-        }
+        }*/
         else{
             turnDifference=(turn-odoHeadding())*-.014;
         }
 //time and drive
-        if(time<.25){
-            teledrive((distance*speed*(time*4)),0,((turnDifference)*speed*(time*4)));
+        if(time<.3333333){
+            teledrive((distance*speed*(time*3)),0,((turnDifference)*speed*(time*3)));
 
         }
         else{

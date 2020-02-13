@@ -18,8 +18,8 @@ public class VsionPipeline extends OpenCvPipeline{
     Mat submat1 = new Mat();
     Mat submat2 = new Mat();
     Mat submat3 = new Mat();
-    Point point1 = new Point(40,125);
-    Point point2 = new Point(60,165);
+    Point point1 = new Point(45,125);
+    Point point2 = new Point(65,165);
     Point point3 = new Point(120,135);
     Point point4 = new Point(140,175);
     Point point5 = new Point(200,145);

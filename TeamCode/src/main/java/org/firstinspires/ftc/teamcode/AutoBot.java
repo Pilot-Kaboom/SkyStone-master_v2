@@ -40,9 +40,9 @@ public abstract class AutoBot extends compiler {
         webcam.startStreaming(320, 240, OpenCvCameraRotation.UPRIGHT);
         while(!isStarted() && !isStopRequested() && !opModeIsActive()){
 
-            rs=vision.stoneC();
-            cs=vision.stoneL();
-            ls=vision.stoneR();
+            cs=vision.stoneC();
+            ls=vision.stoneL();
+            rs=vision.stoneR();
 
             telemetry.addData("colorL", vision.avg1);
             telemetry.addData("colorC", vision.avg2);

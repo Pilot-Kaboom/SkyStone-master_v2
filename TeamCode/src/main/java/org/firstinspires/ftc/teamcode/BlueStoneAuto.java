@@ -16,13 +16,13 @@ public class BlueStoneAuto extends AutoBot{
         drive.resetFEC();
 //turn toward block
         time.reset();
-        while (opModeIsActive() && rs && drive.odoHeadding()>-37){
-            drive.turnforward(0,-37,.9, time.seconds());
+        while (opModeIsActive() && rs && drive.odoHeadding()>-36.5){
+            drive.turnforward(0,-36.5,.9, time.seconds());
             arm.clawcon(false,true,false);
 
         }
-        while (opModeIsActive() && cs && drive.odoHeadding()>-27){
-            drive.turnforward(0,-27,.9, time.seconds());
+        while (opModeIsActive() && cs && drive.odoHeadding()>-26.5){
+            drive.turnforward(0,-26.5,.9, time.seconds());
             arm.clawcon(false,true,false);
 
         }
@@ -36,16 +36,16 @@ public class BlueStoneAuto extends AutoBot{
 
 //go towards block
         time.reset();
-        while (opModeIsActive() && rs && drive.odoForward()<17){
-            drive.turnforward(17,-35,.8, time.seconds());
+        while (opModeIsActive() && rs && drive.odoForward()<18.75){
+            drive.turnforward(17,-35,.7, time.seconds());
 
         }
-        while (opModeIsActive() && cs && drive.odoForward()<15.5){
-            drive.turnforward(15.5,-27,.8, time.seconds());
+        while (opModeIsActive() && cs && drive.odoForward()<16){
+            drive.turnforward(16,-27,.7, time.seconds());
 
         }
         while (opModeIsActive() && ls && drive.odoForward()<12.5){
-            drive.turnforward(12.5,-15.5,.8, time.seconds());
+            drive.turnforward(12.5,-15.5,.7, time.seconds());
 
         }
         drive.StopMotors();
@@ -58,13 +58,13 @@ public class BlueStoneAuto extends AutoBot{
         drive.StopMotors();
         drive.resetFEC();
 //slowly back away
-        while (opModeIsActive()&& ls && drive.odoForward()>-6.5){
+        while (opModeIsActive()&& ls && drive.odoForward()>-7.5){
             drive.teledrive(-.25,0,0);
         }
         while (opModeIsActive()&&cs &&drive.odoForward()>-8.5){
             drive.teledrive(-.25,0,0);
         }
-        while (opModeIsActive()&&rs &&drive.odoForward()>-9){
+        while (opModeIsActive()&&rs &&drive.odoForward()>-10){
             drive.teledrive(-.25,0,0);
         }
         drive.StopMotors();
@@ -189,18 +189,18 @@ public class BlueStoneAuto extends AutoBot{
         drive.resetFEC();*/
 //do to the quarry for each stone
         time.reset();
-        while (opModeIsActive() && ls && drive.odoForward()<45){
+        while (opModeIsActive() && ls && drive.odoForward()<48){
             arm.clawcon(false,false,true);
-            drive.turnforward(48,-86,.8, time.seconds());
+            drive.turnforward(45,-86,.8, time.seconds());
 
         }
-        while (opModeIsActive() &&cs&& drive.odoForward()<51){
+        while (opModeIsActive() &&cs&& drive.odoForward()<53){
             arm.clawcon(false,false,true);
-            drive.turnforward(54,-86,.8, time.seconds());
+            drive.turnforward(53,-86,.8, time.seconds());
         }
         while (opModeIsActive() && rs && drive.odoForward()<63){
             arm.clawcon(false,false,true);
-            drive.turnforward(60,-86,.8, time.seconds());
+            drive.turnforward(63,-86,.8, time.seconds());
         }
         drive.StopMotors();
         drive.resetFEC();

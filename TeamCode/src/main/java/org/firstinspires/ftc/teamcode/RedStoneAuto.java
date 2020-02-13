@@ -16,8 +16,8 @@ public class RedStoneAuto extends AutoBot{
         drive.resetFEC();
 //turn toward block
         time.reset();
-        while (opModeIsActive() && ls && drive.odoHeadding()<37){
-            drive.turnforward(0,37,.9, time.seconds());
+        while (opModeIsActive() && ls && drive.odoHeadding()<38){
+            drive.turnforward(0,38.5,.9, time.seconds());
             arm.clawcon(false,true,false);
 
         }
@@ -36,16 +36,16 @@ public class RedStoneAuto extends AutoBot{
 
 //go towards block
         time.reset();
-        while (opModeIsActive() && ls && drive.odoForward()<17){
-            drive.turnforward(21,35,.8, time.seconds());
+        while (opModeIsActive() && ls && drive.odoForward()<18.5){
+            drive.turnforward(21,37.5,.7, time.seconds());
 
         }
         while (opModeIsActive() && cs && drive.odoForward()<15.5){
-            drive.turnforward(20,27,.8, time.seconds());
+            drive.turnforward(20,27,.7, time.seconds());
 
         }
         while (opModeIsActive() && rs && drive.odoForward()<12.5){
-            drive.turnforward(15,15.5,.8, time.seconds());
+            drive.turnforward(15,15.5,.70, time.seconds());
 
         }
         drive.StopMotors();
@@ -64,7 +64,7 @@ public class RedStoneAuto extends AutoBot{
         while (opModeIsActive()&&cs &&drive.odoForward()>-8.5){
             drive.teledrive(-.25,0,0);
         }
-        while (opModeIsActive()&&ls &&drive.odoForward()>-9){
+        while (opModeIsActive()&&ls &&drive.odoForward()>-11){
             drive.teledrive(-.25,0,0);
         }
         drive.StopMotors();
@@ -83,13 +83,13 @@ public class RedStoneAuto extends AutoBot{
         time.reset();
         while (opModeIsActive() && drive.odoForward()>-55){
             arm.clawcon(false,false,true);
-            drive.turnforward(55,90,.8, time.seconds());
+            drive.turnforward(-55,90,.8, time.seconds());
         }
 //different drive distance to foundation
         time.reset();
-        while (opModeIsActive() && rs && drive.odoForward()>-83){
+        while (opModeIsActive() && rs && drive.odoForward()>-90){
             arm.clawcon(false,false,true);
-            drive.turnforward(-84,90,.8, time.seconds());
+            drive.turnforward(-90,90,.8, time.seconds());
             if(lift.echight()>-400){
                 lift.manualmanual(-.75);
             }
@@ -100,7 +100,7 @@ public class RedStoneAuto extends AutoBot{
         }
         while (opModeIsActive() &&cs&& drive.odoForward()>-87){
             arm.clawcon(false,false,true);
-            drive.turnforward(-88,90,.8, time.seconds());
+            drive.turnforward(-87,90,.8, time.seconds());
             if(lift.echight()>-400){
                 lift.manualmanual(-.75);
             }
@@ -109,9 +109,9 @@ public class RedStoneAuto extends AutoBot{
             }
 
         }
-        while (opModeIsActive() && ls && drive.odoForward()>-90){
+        while (opModeIsActive() && ls && drive.odoForward()>-88){
             arm.clawcon(false,false,true);
-            drive.turnforward(-92,90,.8, time.seconds());
+            drive.turnforward(-88,90,.8, time.seconds());
             if(lift.echight()>-400){
                 lift.manualmanual(-.75);
             }
@@ -136,7 +136,7 @@ public class RedStoneAuto extends AutoBot{
         drive.StopMotors();*/
 //turn to face foundation
         time.reset();
-        while (opModeIsActive() && drive.odoHeadding()<0){
+        while (opModeIsActive() && drive.odoHeadding()>0){
             arm.clawcon(false,false,true);
             drive.turnforward( 0,0,.8, time.seconds());
             if(lift.echight()>-400){
@@ -151,7 +151,7 @@ public class RedStoneAuto extends AutoBot{
         drive.resetFEC();
         lift.manualmanual(0);
 //drive slowly forward to place the first stone
-        while(opModeIsActive()&& drive.odoForward()<.5){
+        while(opModeIsActive()&& drive.odoForward()<1){
             drive.teledrive(.15,0,0);
             intake.intake(-.25);
             arm.elbowcon(false,true,false,false,false);
@@ -173,10 +173,10 @@ public class RedStoneAuto extends AutoBot{
         drive.resetFEC();
 //turn towards quarry
         time.reset();
-        while (opModeIsActive()&& drive.odoHeadding()<85) {
+        while (opModeIsActive()&& drive.odoHeadding()<92) {
             lift.manualmanual(.5);
             arm.elbowcon(false,false,true,false,false);
-            drive.turnforward(0, 85.2, .8, time.seconds());
+            drive.turnforward(0, 92, .8, time.seconds());
         }
         drive.StopMotors();
         drive.resetFEC();
@@ -191,16 +191,16 @@ public class RedStoneAuto extends AutoBot{
         time.reset();
         while (opModeIsActive() && rs && drive.odoForward()<45){
             arm.clawcon(false,false,true);
-            drive.turnforward(48,86,.8, time.seconds());
+            drive.turnforward(45,86,.8, time.seconds());
 
         }
         while (opModeIsActive() &&cs&& drive.odoForward()<51){
             arm.clawcon(false,false,true);
-            drive.turnforward(54,86,.8, time.seconds());
+            drive.turnforward(51,86,.8, time.seconds());
         }
         while (opModeIsActive() && ls && drive.odoForward()<63){
             arm.clawcon(false,false,true);
-            drive.turnforward(60,86,.8, time.seconds());
+            drive.turnforward(63,86,.8, time.seconds());
         }
         drive.StopMotors();
         drive.resetFEC();
@@ -215,21 +215,21 @@ public class RedStoneAuto extends AutoBot{
         drive.resetFEC();
 // go fast towards stone    2nd
         time.reset();
-        while (opModeIsActive()&& drive.odoForward()<8) {
-            drive.turnforward(8, 45, .8, time.seconds());
+        while (opModeIsActive()&& drive.odoForward()<6) {
+            drive.turnforward(6, 45, .8, time.seconds());
             intake.intake(1);
         }
         drive.StopMotors();
         drive.resetFEC();
 // go slow to stone and intake it  2nd
-        while (opModeIsActive()&& drive.odoForward()<12){
+        while (opModeIsActive()&& drive.odoForward()<10){
             drive.teledrive(.175,0,0);
             intake.intake(1);
         }
         drive.StopMotors();
         drive.resetFEC();
 // back away with stone        2nd
-        while (opModeIsActive()&& drive.odoForward()>-11){
+        while (opModeIsActive()&& drive.odoForward()>-9){
             drive.teledrive(-.2,0,0);
             intake.intake(1);
         }
@@ -237,8 +237,8 @@ public class RedStoneAuto extends AutoBot{
         drive.resetFEC();
 //turn to face bridge        2nd
         time.reset();
-        while (opModeIsActive()&& drive.odoHeadding()<85) {
-            drive.turnforward(0, 85, .9, time.seconds());
+        while (opModeIsActive()&& drive.odoHeadding()<90) {
+            drive.turnforward(0, 90, .9, time.seconds());
             intake.intake(0);
             intake.lift(true,false,false);
         }
@@ -273,9 +273,9 @@ public class RedStoneAuto extends AutoBot{
             }
 
         }
-        while (opModeIsActive() && ls && drive.odoForward()>-76){
+        while (opModeIsActive() && ls && drive.odoForward()>-78){
             arm.clawcon(false,false,true);
-            drive.turnforward(-74,85,.8, time.seconds());
+            drive.turnforward(-78,85,.8, time.seconds());
             if(lift.echight()>-500){
                 lift.manualmanual(-.75);
             }
@@ -300,7 +300,7 @@ public class RedStoneAuto extends AutoBot{
         drive.StopMotors();*/
 //tun towards foundation 2nd
         time.reset();
-        while (opModeIsActive() && drive.odoHeadding()<0){
+        while (opModeIsActive() && drive.odoHeadding()>0){
             arm.clawcon(false,false,true);
             drive.turnforward( 0,0,.8, time.seconds());
             if(lift.echight()>-500){
@@ -322,7 +322,7 @@ public class RedStoneAuto extends AutoBot{
 //turn with foundation
         while(opModeIsActive() && drive.odoHeadding()>-90){
             lift.manualmanual(.0);
-            drive.teledrive(-.7,-.4,.65);
+            drive.teledrive(-.7,-.6,.65);
         }
         drive.StopMotors();
         drive.resetFEC();
@@ -338,12 +338,12 @@ public class RedStoneAuto extends AutoBot{
         drive.resetFEC();
         time.reset();
 //go to park
-        while(opModeIsActive() && drive.odoForward()>-45){
+        while(opModeIsActive() && drive.odoForward()>-43){
             if(time.seconds()>.15){
                 intake.lift(false,false,false);
             }
             lift.manualmanual(.5);
-            drive.turnforward(-45,90,.9,time.seconds());
+            drive.turnforward(-43,-90,.9,time.seconds());
         }
         drive.StopMotors();
         time.reset();

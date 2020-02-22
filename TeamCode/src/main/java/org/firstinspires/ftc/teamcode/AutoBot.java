@@ -53,10 +53,11 @@ public abstract class AutoBot extends compiler {
 
             lift.resetEC();
             drive.resetEC();
+            intake.capper(false);
             intake.lift(false,false,false);
             arm.clawcon(false, false,true);
             arm.elbowcon(false,false,true, false, false);
-            arm.wristcon(false,false,true, false,false);
+            //arm.wristcon(false,false,true, false,false);
             sensor.telem();
             arm.telemetry();
             drive.ECtelem();

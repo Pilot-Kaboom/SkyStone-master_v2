@@ -30,13 +30,13 @@ public class Lift {
         this.lift=lift;
     }
     public void manualmanual(double power){
-        if(echight()>0 && power>0){
-            right.setPower(0);
-            left.setPower(0);
+        if(power>.95){
+            right.setPower(power);
+            left.setPower(-power);
         }
         else{
-            right.setPower(power-.1);
-            left.setPower(-power+.1);
+            right.setPower(power-.15);
+            left.setPower(-power+.15);
         }
     }/*
     public void autoHight(){

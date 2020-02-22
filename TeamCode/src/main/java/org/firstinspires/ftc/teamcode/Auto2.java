@@ -12,7 +12,7 @@ public class Auto2 extends AutoBot {
         }
         intake.intake(0);
         drive.resetEC();
-        while(opModeIsActive() && drive.bect()<400){
+        while(opModeIsActive() && drive.odoForward()>-3){
             drive.teledrive(-.5,0,0);
         }
         drive.StopMotors();

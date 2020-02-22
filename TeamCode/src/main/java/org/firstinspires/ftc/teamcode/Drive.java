@@ -25,7 +25,7 @@ public class Drive {
     private double distance;
     private double turnDifference;
     private double forwardreset;
-    private ElapsedTime time;
+    private ElapsedTime time = new ElapsedTime();
     private final LinearOpMode adrive;
 
     public Drive(LinearOpMode adrive){
@@ -105,30 +105,29 @@ public class Drive {
     }*/
     public void turnforward(double distanceForward, double turn, double speed, double time){
 //forward
-        if(((distanceForward-odoForward())*.06)>1){
+        if(((distanceForward-odoForward())*.1)>1){
             distance=1;
-        }
-        else if(((distanceForward-odoForward())*.06)<-1){
+        } else if(((distanceForward-odoForward())*.1)<-1){
             distance=-1;
         }
-        /*else if((distanceForward-odoForward())<10 && distanceForward-odoForward()>-10){
+        else if((distanceForward-odoForward())<10 && distanceForward-odoForward()>-10){
             distance=(distanceForward-odoForward())*.05;
-        }*/
+        }
         else{
-            distance=(distanceForward-odoForward())*.07;
+            distance=(distanceForward-odoForward())*.1;
         }
 //turn
-        if(((turn-odoHeadding())*-.012)>1){
+        if(((turn-odoHeadding())*-.018)>1){
             turnDifference=1;
         }
-        else if(((turn-odoHeadding())*-.012)<-1){
+        else if(((turn-odoHeadding())*-.018)<-1){
             turnDifference=-1;
         }
-        /*else if((turn-odoHeadding())<23 && turn-odoHeadding()>-23){
+        else if((turn-odoHeadding())<23 && turn-odoHeadding()>-23){
             turnDifference=(turn-odoHeadding())*-.01;
-        }*/
+        }
         else{
-            turnDifference=(turn-odoHeadding())*-.014;
+            turnDifference=(turn-odoHeadding())*-.018;
         }
 //time and drive
         if(time<.3333333){
@@ -139,6 +138,17 @@ public class Drive {
             teledrive((distance*speed),0,((turnDifference)*speed));
         }
 
+    }
+    public boolean nextStep(double fore,double turn){
+        if(!((fore-odoForward())>-.2 && (fore-odoForward())<.2&&(turn-odoHeadding())<1&&(turn-odoHeadding())>-1)){
+            time.reset();
+        }
+        if((time.seconds()>.15)&&((fore-odoForward())>-.2 && (fore-odoForward())<.2&&(turn-odoHeadding())<1&&(turn-odoHeadding())>-1)){
+            return (false);
+        }
+        else{
+            return true;
+        }
     }
     public void odoDrive(double x, double y,double headding){
         //distance=((Math.sqrt((x*x)+(y*y)))-(Math.sqrt((odoX()*odoX())+(odoY()*odoY()))));

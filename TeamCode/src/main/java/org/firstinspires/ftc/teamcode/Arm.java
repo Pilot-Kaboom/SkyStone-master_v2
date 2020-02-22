@@ -6,28 +6,28 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class Arm {
 
-    private final Servo wrist;
+    //private final Servo wrist;
     private final Servo elbow;
     private final Servo claw;
     private boolean openclaw;
     private boolean elbowback;
     private boolean wristside;
     private double elbowcalibration;
-    private double wristcalibration;
+    //private double wristcalibration;
     private ElapsedTime time = new ElapsedTime();
     private ElapsedTime elbowtime= new ElapsedTime();
-    private ElapsedTime wristtime= new ElapsedTime();
+    //private ElapsedTime wristtime= new ElapsedTime();
     private final LinearOpMode arm;
 
     public Arm(LinearOpMode arm){
-        wrist = arm.hardwareMap.servo.get("wrist");
+        //wrist = arm.hardwareMap.servo.get("wrist");
         elbow = arm.hardwareMap.servo.get("elbow");
         claw = arm.hardwareMap.servo.get("claw");
 
         this.arm=arm;
     }
 // Wrist Wrist Wrist Wrist Wrist Wrist Wrist Wrist Wrist Wrist Wrist Wrist Wrist
-    public void wristcon(boolean side, boolean highenough, boolean init, boolean increase, boolean decrease){
+    /*public void wristcon(boolean side, boolean highenough, boolean init, boolean increase, boolean decrease){
         if(increase&& wristtime.seconds()>.1){
             wristcalibration=wristcalibration+.05;
             wristtime.reset();
@@ -45,10 +45,10 @@ public class Arm {
         if (init){
             wrist.setPosition(.455);
         }
-    }
+    }*/
     public void cap(){
         elbow.setPosition(.75);
-        wrist.setPosition(.37);
+        //wrist.setPosition(.37);
     }
     //Elbow Elbow Elbow Elbow Elbow Elbow Elbow Elbow Elbow Elbow Elbow Elbow Elbow
     public void elbowcon(boolean back, boolean out, boolean init, boolean increase, boolean decrease) {
@@ -66,14 +66,14 @@ public class Arm {
             elbowtime.reset();
         }
         if (elbowback && back) {
-            elbow.setPosition(.95);
+            elbow.setPosition(1);
         } else if (elbowback) {
-            elbow.setPosition(.59);
+            elbow.setPosition(.73);
         } else {
-            elbow.setPosition(0);
+            elbow.setPosition(.09);
         }
         if (init) {
-            elbow.setPosition(0);
+            elbow.setPosition(.09);
         } else if (out){
             elbow.setPosition(.9);
         }
@@ -88,10 +88,10 @@ public class Arm {
             time.reset();
         }
         if(openclaw){
-            claw.setPosition(.25);
+            claw.setPosition(0);
         }
         else{
-            claw.setPosition(0);
+            claw.setPosition(0.27);
         }
         if(init){
             openclaw=true;
@@ -104,7 +104,7 @@ public class Arm {
         return(claw.getPosition());
     }
     public void telemetry(){
-        arm.telemetry.addData("wrist position",wrist.getPosition());
+        //arm.telemetry.addData("wrist position",wrist.getPosition());
         arm.telemetry.addData("elbow position",elbow.getPosition());
         arm.telemetry.addData("claw position",claw.getPosition());
 

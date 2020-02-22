@@ -11,8 +11,11 @@ public class TeleOp extends TeleBot {
             if(gamepad1.a){
                 drive.teledrive(-gamepad1.left_stick_y*.15,gamepad1.left_stick_x*.15,(gamepad1.right_trigger-gamepad1.left_trigger)*.1);
             }
+            else if(gamepad1.b){
+                drive.teledrive(-gamepad1.left_stick_y*.3,gamepad1.left_stick_x*.3,(gamepad1.right_trigger-gamepad1.left_trigger)*.25);
+            }
             else {
-                drive.teledrive(-gamepad1.left_stick_y,gamepad1.left_stick_x,gamepad1.right_trigger-gamepad1.left_trigger);
+                drive.teledrive(-gamepad1.left_stick_y,gamepad1.left_stick_x,(gamepad1.right_trigger-gamepad1.left_trigger));
             }
             intake.capper(gamepad2.left_trigger>.3);
             intake.intake(gamepad2.left_stick_y);
@@ -32,29 +35,32 @@ public class TeleOp extends TeleBot {
                 lift.manualmanual(gamepad2.right_stick_y);
             }
             else if (arm.elbowPosition()>.5){
-                if(gamepad2.right_stick_y<0){
-                    lift.manualmanual(gamepad2.right_stick_y*.4);
+                if(gamepad2.right_stick_button){
+                    lift.manualmanual(gamepad2.right_stick_y+.05);
+                }
+                else if(gamepad2.right_stick_y<0){
+                    lift.manualmanual(gamepad2.right_stick_y*.7);
                 }
                 else{
-                    lift.manualmanual(gamepad2.right_stick_y*.2);
+                    lift.manualmanual(gamepad2.right_stick_y*.3);
                 }
                 //lift.manual(gamepad2.right_stick_y, arm.elbowPosition()<.5);
                 arm.clawcon(gamepad2.left_bumper,false, false);
                 arm.elbowcon(gamepad2.right_bumper,false, false, false, false);
                 //arm.wristcon(false,lift.echight()>500, false, gamepad1.left_bumper, gamepad1.right_bumper);
 
-                intake.lift(gamepad1.x,false,false);
+                intake.lift(gamepad1.x||gamepad1.y,false,false);
             }
             else{
                 lift.manualmanual(gamepad2.right_stick_y);
                 //lift.manual(gamepad2.right_stick_y, arm.elbowPosition()<.5);
                 arm.clawcon(gamepad2.left_bumper,false, false);
                 arm.elbowcon(gamepad2.right_bumper,false, false, false, false);
-                arm.wristcon(false,true, false, gamepad1.left_bumper, gamepad1.right_bumper);
+                //arm.wristcon(false,true, false, gamepad1.left_bumper, gamepad1.right_bumper);
 
-                intake.lift(gamepad1.x,false,false);
+                intake.lift(gamepad1.x||gamepad1.y,false,false);
             }
-            if(gamepad1.b){
+            if(gamepad1.y){
                 drive.resetFEC();
             }
             /*

@@ -27,8 +27,8 @@ public class Intake {
     }
     public void lift(boolean up,boolean left, boolean right){
         if(up){
-            rightup.setPosition(.253);
-            leftup.setPosition(.255);
+            rightup.setPosition(.73);
+            leftup.setPosition(.3);
 
         }
         else if(left){
@@ -40,8 +40,8 @@ public class Intake {
             leftup.setPosition(.5);
         }
         else{
-            rightup.setPosition(.05);
-            leftup.setPosition(.52);
+            rightup.setPosition(.55);
+            leftup.setPosition(.45);
         }
     }
     public void capper(boolean place){
@@ -49,7 +49,7 @@ public class Intake {
             cap.setPosition(.97);
         }
         else{
-            cap.setPosition(.5);
+            cap.setPosition(.497);
         }
     }
     /*

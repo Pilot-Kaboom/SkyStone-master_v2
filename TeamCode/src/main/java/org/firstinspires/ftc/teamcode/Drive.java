@@ -31,7 +31,8 @@ public class Drive {
 
     public double x = 0;    // The approximated x position of the robot relative to where it started
     public double y = 0;    // The approximated y position of the robot relative to where it started
-    public double a = 0;    // The approximated heading of the robot relative to its initial heading
+    public double a = 0;    // The approximated heading of the robot relative to its initial heading in radians
+    public double h = 0; //The approximated heading of the robot relative to its initial heading in degrees
 
     public double prev_le;
     public double prev_re;
@@ -39,7 +40,7 @@ public class Drive {
 
     private double WHEEL_DIAMETER       = 1.49420962888;    //1.48982939421;    // Diameter of the omniwheels
     private double ENCODER_CPR          = 8192;             // Counts per full rotation of an encoder
-    private double ROBOT_DIAMETER       = 15.7075609922;    //15.74735 //15.53           // Distance between the left and right encoder (diameter) in inches
+    private double ROBOT_DIAMETER       = 12.901019222778256571485812396865;    //12.523979096482822332390518662171; //15.7075609922;    //15.74735 //15.53           // Distance between the left and right encoder (diameter) in inches
     private double CENTER_WHEEL_OFFSET  = 7.594180357;      //7.725136416;      //7.719 //7.375 Distance of the center encoder to the line made between the left and right encoders (radius) in inches
 
     private double WHEEL_CIRCUMFERENCE  = WHEEL_DIAMETER * Math.PI;
@@ -120,6 +121,7 @@ public class Drive {
 
         // Calculate the new angle of the robot using the difference between the left and right encoder
         a = (ree * INCHES_PER_COUNT - lee * INCHES_PER_COUNT) / ROBOT_DIAMETER;
+        h = a * (180/Math.PI);
 
         // Calculate the new position of the robot by adding the arc vector to the absolute pos
         double sinph = Math.sin(ph);
@@ -278,7 +280,8 @@ public class Drive {
 
         adrive.telemetry.addData("new X",x);
         adrive.telemetry.addData("new Y",y);
-        adrive.telemetry.addData("new H",a);
+        adrive.telemetry.addData("new H r",a);
+        adrive.telemetry.addData("new H d",h);
 
         /*adrive.telemetry.addData("FEC", fect());
         adrive.telemetry.addData("BEC", bect());

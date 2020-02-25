@@ -1,10 +1,15 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.hardware.rev.RevBlinkinLedDriver;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DigitalChannel;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.TouchSensor;
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.opencv.core.Scalar;
 
 
 public class Sensors {
@@ -13,6 +18,8 @@ public class Sensors {
     private final DistanceSensor ld;
     private final DistanceSensor fd;
     private final DistanceSensor bd;*/
+    private final DistanceSensor stone;
+    private final RevBlinkinLedDriver lights;
     private final ColorSensor rc;
     private final ColorSensor lc;
     private final DigitalChannel block;
@@ -24,7 +31,8 @@ public class Sensors {
         fd = sensor.hardwareMap.get(DistanceSensor.class, "bd");
         rd = sensor.hardwareMap.get(DistanceSensor.class, "bd");
         ld = sensor.hardwareMap.get(DistanceSensor.class, "bd");*/
-
+        lights = sensor.hardwareMap.get(RevBlinkinLedDriver.class,"lights");
+        stone = sensor.hardwareMap.get(DistanceSensor.class, "stone");
         rc= sensor.hardwareMap.get(ColorSensor.class, "rc");
         lc= sensor.hardwareMap.get(ColorSensor.class, "lc");
         block= sensor.hardwareMap.get(DigitalChannel.class, "block");
@@ -58,6 +66,22 @@ public class Sensors {
     }
     public boolean block(){
         return block.getState();
+    }
+    public void lightColor(boolean range){
+        if(range){
+            if(stone.getDistance(DistanceUnit.INCH)<8 && stone.getDistance(DistanceUnit.INCH)>6.5){
+                lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GOLD);
+
+            }
+            else{
+                lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED);
+
+            }
+        }
+        else{
+            lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.RED_ORANGE);
+        }
+
     }
     /*
     public double rd(){

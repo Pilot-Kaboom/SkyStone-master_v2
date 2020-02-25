@@ -9,12 +9,17 @@ public class TeleOp extends TeleBot {
     public void run(){
         while(opModeIsActive()){
             if(gamepad1.a){
+                sensor.lightColor(true);
                 drive.teledrive(-gamepad1.left_stick_y*.15,gamepad1.left_stick_x*.15,(gamepad1.right_trigger-gamepad1.left_trigger)*.1);
             }
             else if(gamepad1.b){
+                sensor.lightColor(false);
+
                 drive.teledrive(-gamepad1.left_stick_y*.3,gamepad1.left_stick_x*.3,(gamepad1.right_trigger-gamepad1.left_trigger)*.25);
             }
             else {
+                sensor.lightColor(false);
+
                 drive.teledrive(-gamepad1.left_stick_y,gamepad1.left_stick_x,(gamepad1.right_trigger-gamepad1.left_trigger));
             }
             intake.capper(gamepad2.left_trigger>.3);

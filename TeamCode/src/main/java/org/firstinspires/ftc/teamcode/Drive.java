@@ -28,6 +28,25 @@ public class Drive {
     private ElapsedTime time = new ElapsedTime();
     private final LinearOpMode adrive;
 
+
+    public double x = 0;    // The approximated x position of the robot relative to where it started
+    public double y = 0;    // The approximated y position of the robot relative to where it started
+    public double a = 0;    // The approximated heading of the robot relative to its initial heading
+
+    public double prev_le;
+    public double prev_re;
+    public double prev_ce;
+
+    private double WHEEL_DIAMETER       = 1.49420962888;    //1.48982939421;    // Diameter of the omniwheels
+    private double ENCODER_CPR          = 8192;             // Counts per full rotation of an encoder
+    private double ROBOT_DIAMETER       = 15.7075609922;    //15.74735 //15.53           // Distance between the left and right encoder (diameter) in inches
+    private double CENTER_WHEEL_OFFSET  = 7.594180357;      //7.725136416;      //7.719 //7.375 Distance of the center encoder to the line made between the left and right encoders (radius) in inches
+
+    private double WHEEL_CIRCUMFERENCE  = WHEEL_DIAMETER * Math.PI;
+    private double INCHES_PER_COUNT     = WHEEL_CIRCUMFERENCE / ENCODER_CPR;
+
+
+
     public Drive(LinearOpMode adrive){
         BRM = adrive.hardwareMap.dcMotor.get("brm");
         BLM = adrive.hardwareMap.dcMotor.get("blm");
@@ -79,6 +98,78 @@ public class Drive {
         BRM.setPower(0);
     }
 
+
+
+
+
+    public void update(double lee, double ree, double cee) {
+
+        // Calculate encoder deltas
+        double ld = lee - prev_le;
+        double rd = ree - prev_re;
+        double cd = cee - prev_ce;
+
+        // Calculate phi, or the delta of our angle
+        double ph = (rd * INCHES_PER_COUNT - ld * INCHES_PER_COUNT) / ROBOT_DIAMETER;
+
+        // The arclength of movement forward/backward
+        double dc = (rd * INCHES_PER_COUNT + ld * INCHES_PER_COUNT) / 2;
+
+        // The arclength of movement left/right
+        double sc = (cd * INCHES_PER_COUNT) + (ph * CENTER_WHEEL_OFFSET);
+
+        // Calculate the new angle of the robot using the difference between the left and right encoder
+        a = (ree * INCHES_PER_COUNT - lee * INCHES_PER_COUNT) / ROBOT_DIAMETER;
+
+        // Calculate the new position of the robot by adding the arc vector to the absolute pos
+        double sinph = Math.sin(ph);
+        double cosph = Math.cos(ph);
+
+        double s;
+        double c;
+
+        // If the arc turn is small enough, do this instead to avoid a div by zero error
+        if(Math.abs(ph) < 1E-9) {
+            s = 1.0 - 1.0 / 6.0 * ph * ph;
+            c = 0.5 * ph;
+        } else {
+            s = sinph / ph;
+            c = (1 - cosph) / ph;
+        }
+
+        // Find our x and y translations relative to the origin pose (0,0,0)
+        double rel_x = sc * s - dc * c;
+        double rel_y = sc * c - dc * s;
+
+        // Transform those x and y translations to the actual rotation of our robot, and translate our robots positions to the new spot
+        x += rel_x * Math.cos(a) - rel_y * Math.sin(a);
+        y += rel_x * Math.sin(a) + rel_y * Math.cos(a);
+
+        /* OLD BAD BAD BAD CODE THAT DOESN'T REALLY WORK AT ALL REALLY
+        y += (dc * Math.cos(a + (ph / 2))) - (sc * Math.sin(a + (ph / 2)));
+        x -= (dc * Math.sin(a + (ph / 2))) + (sc * Math.cos(a + (ph / 2)));
+        */
+
+        // Used to calculate deltas for next loop
+        prev_le = lee;
+        prev_re = ree;
+        prev_ce = cee;
+
+    }
+
+    public void driveControl(double xgo, double ygo, double hgo, double p){
+        update(-le.getCurrentPosition(), -re.getCurrentPosition(),-be.getCurrentPosition());
+
+        double disY = ygo-y;
+        double disX = xgo-x;
+        double disH = hgo-a;
+
+
+    }
+
+
+
+
     public double odoHeadding(){
         return((re.getCurrentPosition()-le.getCurrentPosition())*.0025393278688);
     }
@@ -105,29 +196,29 @@ public class Drive {
     }*/
     public void turnforward(double distanceForward, double turn, double speed, double time){
 //forward
-        if(((distanceForward-odoForward())*.1)>1){
+        if(((distanceForward-odoForward())*.08)>1){
             distance=1;
-        } else if(((distanceForward-odoForward())*.1)<-1){
+        } else if(((distanceForward-odoForward())*.08)<-1){
             distance=-1;
         }
-        else if((distanceForward-odoForward())<10 && distanceForward-odoForward()>-10){
+        /*else if((distanceForward-odoForward())<10 && distanceForward-odoForward()>-10){
             distance=(distanceForward-odoForward())*.05;
-        }
+        }*/
         else{
-            distance=(distanceForward-odoForward())*.1;
+            distance=(distanceForward-odoForward())*.08;
         }
 //turn
-        if(((turn-odoHeadding())*-.018)>1){
+        if(((turn-odoHeadding())*-.015)>1){
             turnDifference=1;
         }
-        else if(((turn-odoHeadding())*-.018)<-1){
+        else if(((turn-odoHeadding())*-.015)<-1){
             turnDifference=-1;
         }
-        else if((turn-odoHeadding())<23 && turn-odoHeadding()>-23){
+        /*else if((turn-odoHeadding())<23 && turn-odoHeadding()>-23){
             turnDifference=(turn-odoHeadding())*-.01;
-        }
+        }*/
         else{
-            turnDifference=(turn-odoHeadding())*-.018;
+            turnDifference=(turn-odoHeadding())*-.015;
         }
 //time and drive
         if(time<.3333333){
@@ -140,7 +231,7 @@ public class Drive {
 
     }
     public boolean nextStep(double fore,double turn){
-        if(!((fore-odoForward())>-.2 && (fore-odoForward())<.2&&(turn-odoHeadding())<1&&(turn-odoHeadding())>-1)){
+        if(!((fore-odoForward())>-.5 && (fore-odoForward())<.5&&(turn-odoHeadding())<1.75&&(turn-odoHeadding())>-1.75)){
             time.reset();
         }
         if((time.seconds()>.15)&&((fore-odoForward())>-.2 && (fore-odoForward())<.2&&(turn-odoHeadding())<1&&(turn-odoHeadding())>-1)){
@@ -167,6 +258,7 @@ public class Drive {
         BRM.setPower(-forward - right + turnC);
     }
     public void ECtelem() {
+        update(-le.getCurrentPosition(),-re.getCurrentPosition(),-be.getCurrentPosition());
 
         adrive.telemetry.addData("odoForward",odoForward());
         adrive.telemetry.addData("odoRight",odoRight());
@@ -183,6 +275,11 @@ public class Drive {
         adrive.telemetry.addData("left module", FLM.getCurrentPosition());
         adrive.telemetry.addData("back module", BRM.getCurrentPosition());
         adrive.telemetry.addData("N/A", BLM.getCurrentPosition());
+
+        adrive.telemetry.addData("new X",x);
+        adrive.telemetry.addData("new Y",y);
+        adrive.telemetry.addData("new H",a);
+
         /*adrive.telemetry.addData("FEC", fect());
         adrive.telemetry.addData("BEC", bect());
         adrive.telemetry.addData("REC", rect());

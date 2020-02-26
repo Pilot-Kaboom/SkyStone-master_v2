@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.AnalogSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.qualcomm.robotcore.util.Range;
 
 import java.util.Base64;
 
@@ -41,7 +42,7 @@ public class Drive {
     private double WHEEL_DIAMETER       = 1.49420962888;    //1.48982939421;    // Diameter of the omniwheels
     private double ENCODER_CPR          = 8192;             // Counts per full rotation of an encoder
     private double ROBOT_DIAMETER       = 12.901019222778256571485812396865;    //12.523979096482822332390518662171; //15.7075609922;    //15.74735 //15.53           // Distance between the left and right encoder (diameter) in inches
-    private double CENTER_WHEEL_OFFSET  = 7.594180357;      //7.725136416;      //7.719 //7.375 Distance of the center encoder to the line made between the left and right encoders (radius) in inches
+    private double CENTER_WHEEL_OFFSET  = 6.283185307179586476925286766559;      //7.725136416;      //7.719 //7.375 Distance of the center encoder to the line made between the left and right encoders (radius) in inches
 
     private double WHEEL_CIRCUMFERENCE  = WHEEL_DIAMETER * Math.PI;
     private double INCHES_PER_COUNT     = WHEEL_CIRCUMFERENCE / ENCODER_CPR;
@@ -121,7 +122,7 @@ public class Drive {
 
         // Calculate the new angle of the robot using the difference between the left and right encoder
         a = (ree * INCHES_PER_COUNT - lee * INCHES_PER_COUNT) / ROBOT_DIAMETER;
-        h = a * (180/Math.PI);
+        h = a * (-180/Math.PI);
 
         // Calculate the new position of the robot by adding the arc vector to the absolute pos
         double sinph = Math.sin(ph);
@@ -159,14 +160,67 @@ public class Drive {
 
     }
 
-    public void driveControl(double xgo, double ygo, double hgo, double p){
+
+    public void tryToGoBad(double xgo, double ygo, double hgo, double speed){
+        double disY = ygo-y;
+        double disX = xgo-x;
+        double disH = hgo-h;
+
+        double distance = Math.hypot(disX,disY);
+
+        double idealHeading = Math.atan2(disY,disX);
+
+        double rightPow = distance * Math.sin(idealHeading-a) * 1 * speed;
+        double forePow = distance * Math.cos(idealHeading-a) * 1 * speed;
+
+        if (distance>10){
+            double turnPow = idealHeading-a * 1;
+        }
+        else{
+            double turnPow = disH * 1;
+        }
+
+
+
+    }
+
+    public void driveControl(double xgo, double ygo, double hgo, double preferredAngle, double turnSpeed){
         update(-le.getCurrentPosition(), -re.getCurrentPosition(),-be.getCurrentPosition());
 
         double disY = ygo-y;
         double disX = xgo-x;
-        double disH = hgo-a;
+        double disH = hgo-h;
+
+        double distanceToTarget = Math.hypot(disX,disY);
+
+        double absoluteAngleToTarget = Math.atan2(disY,disX);
+        double relativeAngleToTarget = angleWrap(absoluteAngleToTarget-a);
+
+        double relativeXToTarget = Math.cos(relativeAngleToTarget) * distanceToTarget;
+        double relativeYToTarget = Math.sin(relativeAngleToTarget) * distanceToTarget;
+
+        double movementXPower = relativeXToTarget / (Math.abs(relativeXToTarget) + Math.abs(relativeYToTarget));
+        double movementYPower = relativeYToTarget / (Math.abs(relativeYToTarget) + Math.abs(relativeXToTarget));
+
+        double relativeTurnAngle = relativeAngleToTarget - Math.toRadians(180) + preferredAngle;
+
+        teledrive(movementYPower,movementXPower, Range.clip(relativeTurnAngle/Math.toRadians(30),-1,1)*turnSpeed);
 
 
+
+
+
+    }
+
+    public static double angleWrap(double angle){
+        while(angle<-Math.PI){
+            angle += 2*Math.PI;
+        }
+        while(angle > Math.PI){
+            angle -= 2*Math.PI;
+        }
+
+        return angle;
     }
 
 
@@ -273,10 +327,9 @@ public class Drive {
         adrive.telemetry.addData("odoF2",odoF2);
         adrive.telemetry.addData("odoF2",odoR2);
 
-        adrive.telemetry.addData("right module", FRM.getCurrentPosition());
-        adrive.telemetry.addData("left module", FLM.getCurrentPosition());
-        adrive.telemetry.addData("back module", BRM.getCurrentPosition());
-        adrive.telemetry.addData("N/A", BLM.getCurrentPosition());
+        adrive.telemetry.addData("right module", re.getCurrentPosition());
+        adrive.telemetry.addData("left module", le.getCurrentPosition());
+        adrive.telemetry.addData("back module", be.getCurrentPosition());
 
         adrive.telemetry.addData("new X",x);
         adrive.telemetry.addData("new Y",y);

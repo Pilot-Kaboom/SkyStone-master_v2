@@ -16,6 +16,7 @@ public abstract class TeleBot extends compiler {
         while(!isStarted() && !isStopRequested() && !opModeIsActive()){
             lift.resetEC();
             intake.capper(false);
+            time.reset();
 
             sensor.touchInit();
             arm.clawcon(false,true,false);

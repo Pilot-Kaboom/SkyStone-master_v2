@@ -68,6 +68,29 @@ public class TeleOp extends TeleBot {
             if(gamepad1.y){
                 drive.resetFEC();
             }
+            if(time.seconds()>110){
+                if(gamepad1.right_stick_y>.1){
+                    intake.park(false,false);
+                }
+                else if(gamepad1.right_stick_y<-.1){
+                    intake.park(true,false);
+                }
+                else{
+                    intake.park(false,true);
+                }
+            }
+            else{
+                if(gamepad1.right_stick_y>.1){
+                    intake.park(true,false);
+                }
+                else if(gamepad1.right_stick_y<-.1){
+                    intake.park(true,false);
+                }
+                else{
+                    intake.park(false,false);
+                }
+
+            }
             /*
             else if(gamepad2.left_trigger>.2){
                 lift.grab(gamepad2.left_trigger>.2,arm.elbowPosition()<.5);

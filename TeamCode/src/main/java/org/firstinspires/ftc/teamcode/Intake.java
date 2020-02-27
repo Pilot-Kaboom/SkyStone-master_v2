@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.hardware.configuration.annotations.ServoType;
 
 public class Intake {
     private final LinearOpMode intake;
@@ -11,6 +12,7 @@ public class Intake {
     private final Servo rightup;
     private final Servo leftup;
     private final Servo cap;
+    private final Servo tape;
 
     public Intake (LinearOpMode intake){
         right = intake.hardwareMap.dcMotor.get("rightintake");
@@ -18,6 +20,7 @@ public class Intake {
         leftup = intake.hardwareMap.servo.get("leftservo");
         rightup = intake.hardwareMap.servo.get("rightservo");
         cap = intake.hardwareMap.servo.get("cap");
+        tape = intake.hardwareMap.servo.get("tape");
 
         this.intake=intake;
     }
@@ -52,6 +55,18 @@ public class Intake {
             cap.setPosition(.497);
         }
     }
+    public void park(boolean out,boolean in){
+        if(out){
+            tape.setPosition(0);
+        }
+        else if(in){
+            tape.setPosition(1);
+        }
+        else{
+            tape.setPosition(.5);
+        }
+    }
+
     /*
     public double odoHeadding(){
         return((right.getCurrentPosition()-left.getCurrentPosition())*0.0012696639344);

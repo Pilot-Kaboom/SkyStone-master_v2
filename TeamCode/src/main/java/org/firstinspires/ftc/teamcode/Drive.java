@@ -23,10 +23,29 @@ public class Drive {
     private double odoR2;
     private double odoF2;
     private double startx;
+    private double prev_dt;
+    private double prev_df;
+    private double dControlT;
+    private double dControlF;
+    private double deltaTime;
+    private double lastTime;
+
+    private double turnPow;
+    private double disY;
+    private double disX;
+    private double disH;
+    private double distance2;
+    private double idealHeading;
+    private double rightPow;
+    private double forePow;
+
     private double distance;
     private double turnDifference;
     private double forwardreset;
     private ElapsedTime time = new ElapsedTime();
+    private ElapsedTime timeDF = new ElapsedTime();
+    private ElapsedTime timeDT = new ElapsedTime();
+
     private final LinearOpMode adrive;
 
 
@@ -101,9 +120,6 @@ public class Drive {
     }
 
 
-
-
-
     public void update(double lee, double ree, double cee) {
 
         // Calculate encoder deltas
@@ -162,26 +178,39 @@ public class Drive {
 
 
     public void tryToGoBad(double xgo, double ygo, double hgo, double speed){
-        double disY = ygo-y;
-        double disX = xgo-x;
-        double disH = hgo-h;
+        disY = ygo-y;
+        disX = xgo-x;
+        disH = (hgo/(-180/Math.PI))-a;
 
-        double distance = Math.hypot(disX,disY);
+        distance2 = Math.hypot(disX,disY);
 
-        double idealHeading = Math.atan2(disY,disX);
+        idealHeading = Math.atan2(disY,disX);
 
-        double rightPow = distance * Math.sin(idealHeading-a) * 1 * speed;
-        double forePow = distance * Math.cos(idealHeading-a) * 1 * speed;
+        rightPow = distance2 * Math.cos(idealHeading-a) * 1 * speed;
+        forePow = distance2 * Math.sin(idealHeading-a) * 1 * speed;
 
-        if (distance>10){
-            double turnPow = idealHeading-a * 1;
+        if (distance2>10){
+            turnPow = (idealHeading-a) * 1 * speed;
         }
         else{
-            double turnPow = disH * 1;
+            turnPow = disH * 1 * speed;
         }
 
+        //teledrive(forePow,rightPow,turnPow);
 
 
+    }
+
+    public boolean newNextStep(double xgo, double ygo, double hgo){
+        if(!(((xgo-x)<1&&(xgo-x)>-1) && ((ygo-y)>-1&&(ygo-y)<1) && ((hgo-h)<1&&(hgo-h)>-1))){
+            time.reset();
+        }
+        if (time.seconds()>.1&&(((xgo-x)<1&&(xgo-x)>-1) && ((ygo-y)>-1&&(ygo-y)<1) && ((hgo-h)<1&&(hgo-h)>-1))){
+            return false;
+        }
+        else{
+            return true;
+        }
     }
 
     public void driveControl(double xgo, double ygo, double hgo, double preferredAngle, double turnSpeed){
@@ -252,37 +281,48 @@ public class Drive {
     }*/
     public void turnforward(double distanceForward, double turn, double speed, double time){
 //forward
-        if(((distanceForward-odoForward())*.08)>1){
+        dControlF();
+        /*if(((distanceForward-odoForward())*.15)>1){
             distance=1;
-        } else if(((distanceForward-odoForward())*.08)<-1){
+        }
+        else if(((distanceForward-odoForward())*.15)<-1){
             distance=-1;
         }
-        /*else if((distanceForward-odoForward())<10 && distanceForward-odoForward()>-10){
-            distance=(distanceForward-odoForward())*.05;
-        }*/
-        else{
-            distance=(distanceForward-odoForward())*.08;
+        /*else if(Math.abs((distanceForward-odoForward())*.09)<.2){
+            distance=((distanceForward-odoForward())*.05);
         }
+        else if((distanceForward-odoForward())<10 && distanceForward-odoForward()>-10){
+            distance=(distanceForward-odoForward())*.05;
+        }
+        else{
+
+        }*/
+        distance=(distanceForward-odoForward())*.15;
 //turn
-        if(((turn-odoHeadding())*-.015)>1){
+        dControlT();
+        /*if(((turn-odoHeadding())*-.03)>1){
             turnDifference=1;
         }
-        else if(((turn-odoHeadding())*-.015)<-1){
+        else if(((turn-odoHeadding())*-.03)<-1){
             turnDifference=-1;
         }
-        /*else if((turn-odoHeadding())<23 && turn-odoHeadding()>-23){
-            turnDifference=(turn-odoHeadding())*-.01;
-        }*/
-        else{
-            turnDifference=(turn-odoHeadding())*-.015;
+        /*else if(Math.abs(turn-odoHeadding()*-.017)<.1){
+            turnDifference=(turn-odoHeadding())*-.04;
         }
+        else if((turn-odoHeadding())<23 && turn-odoHeadding()>-23){
+            turnDifference=(turn-odoHeadding())*-.01;
+        }
+        else{
+
+        }*/
+        turnDifference=(turn-odoHeadding())*-.03;
 //time and drive
         if(time<.3333333){
-            teledrive((distance*speed*(time*3)),0,((turnDifference)*speed*(time*3)));
+            teledrive(((distance+dControlF)*speed*(time*3)),0,((turnDifference+dControlT)*speed*(time*3)));
 
         }
         else{
-            teledrive((distance*speed),0,((turnDifference)*speed));
+            teledrive(((distance+dControlF)*speed),0,((turnDifference+dControlT)*speed));
         }
 
     }
@@ -290,13 +330,34 @@ public class Drive {
         if(!((fore-odoForward())>-.5 && (fore-odoForward())<.5&&(turn-odoHeadding())<1.75&&(turn-odoHeadding())>-1.75)){
             time.reset();
         }
-        if((time.seconds()>.15)&&((fore-odoForward())>-.2 && (fore-odoForward())<.2&&(turn-odoHeadding())<1&&(turn-odoHeadding())>-1)){
+        if((time.seconds()>.15)&&((fore-odoForward())>-.5 && (fore-odoForward())<.5&&(turn-odoHeadding())<1.75&&(turn-odoHeadding())>-1.75)){
             return (false);
         }
         else{
             return true;
         }
     }
+    public void dControlF(){
+        while(timeDF.seconds()>.01){
+            double delta = (odoForward()-prev_df);
+            dControlF=delta*-.2;
+            prev_df=odoForward();
+            timeDF.reset();
+        }
+    }
+    public void dControlT(){
+        while(timeDT.seconds()>.01){
+            double delta = (odoHeadding()-prev_dt);
+            dControlT=delta*.035;
+            prev_dt=odoHeadding();
+            timeDT.reset();
+        }
+    }
+    /*public void deltaTime(){
+        double delta = timeD.seconds()-lastTime;
+        deltaTime=delta*1000000;
+        lastTime=timeD.seconds();
+    }*/
     public void odoDrive(double x, double y,double headding){
         //distance=((Math.sqrt((x*x)+(y*y)))-(Math.sqrt((odoX()*odoX())+(odoY()*odoY()))));
 
@@ -315,6 +376,7 @@ public class Drive {
     }
     public void ECtelem() {
         update(-le.getCurrentPosition(),-re.getCurrentPosition(),-be.getCurrentPosition());
+        tryToGoBad(-10,10,-45,.5);
 
         adrive.telemetry.addData("odoForward",odoForward());
         adrive.telemetry.addData("odoRight",odoRight());
@@ -335,6 +397,17 @@ public class Drive {
         adrive.telemetry.addData("new Y",y);
         adrive.telemetry.addData("new H r",a);
         adrive.telemetry.addData("new H d",h);
+
+        adrive.telemetry.addData("#DisY",disY);
+        adrive.telemetry.addData("#DisX",disX);
+        adrive.telemetry.addData("#DisH",disH);
+        adrive.telemetry.addData("#distance2",distance2);
+        adrive.telemetry.addData("#idealHeading",idealHeading);
+        adrive.telemetry.addData("#RightPow",rightPow);
+        adrive.telemetry.addData("#forePow",forePow);
+        adrive.telemetry.addData("#turnPow",turnPow);
+
+
 
         /*adrive.telemetry.addData("FEC", fect());
         adrive.telemetry.addData("BEC", bect());

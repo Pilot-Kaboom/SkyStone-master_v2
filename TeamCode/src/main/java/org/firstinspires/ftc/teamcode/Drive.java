@@ -340,7 +340,7 @@ public class Drive {
     public void dControlF(){
         while(timeDF.seconds()>.0333333333333){
             double delta = (odoForward()-prev_df);
-            dControlF=delta*-.4;
+            dControlF=delta*-.44;
             prev_df=odoForward();
             timeDF.reset();
         }
@@ -348,7 +348,7 @@ public class Drive {
     public void dControlT(){
         while(timeDT.seconds()>.0333333333333){
             double delta = (odoHeadding()-prev_dt);
-            dControlT=delta*.036;
+            dControlT=delta*.047;
             prev_dt=odoHeadding();
             timeDT.reset();
         }

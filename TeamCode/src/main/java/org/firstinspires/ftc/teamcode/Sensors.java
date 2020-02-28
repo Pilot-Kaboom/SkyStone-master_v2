@@ -69,7 +69,7 @@ public class Sensors {
     }
     public void lightColor(boolean range){
         if(range){
-            if(stone.getDistance(DistanceUnit.INCH)<8 && stone.getDistance(DistanceUnit.INCH)>6.5){
+            if(stone.getDistance(DistanceUnit.INCH)<7.5 && stone.getDistance(DistanceUnit.INCH)>6){
                 lights.setPattern(RevBlinkinLedDriver.BlinkinPattern.GOLD);
 
             }

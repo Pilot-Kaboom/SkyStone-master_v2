@@ -317,7 +317,7 @@ public class BlueStoneAuto extends AutoBot{
             }
         }
 //slowly approach foundation to grab it
-        while(opModeIsActive()&& drive.odoForward()<6){
+        while(opModeIsActive()&& drive.odoForward()<7){
             drive.teledrive(.15,0,0);
             arm.elbowcon(false,true,false,false,false);
         }

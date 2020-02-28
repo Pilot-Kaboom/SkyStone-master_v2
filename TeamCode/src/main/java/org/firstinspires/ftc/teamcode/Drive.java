@@ -315,7 +315,7 @@ public class Drive {
         else{
 
         }*/
-        turnDifference=(turn-odoHeadding())*-.03;
+        turnDifference=(turn-odoHeadding())*-.043;
 //time and drive
         if(time<.3333333){
             teledrive(((distance+dControlF)*speed*(time*3)),0,((turnDifference+dControlT)*speed*(time*3)));
@@ -327,10 +327,10 @@ public class Drive {
 
     }
     public boolean nextStep(double fore,double turn){
-        if(!((fore-odoForward())>-.5 && (fore-odoForward())<.5&&(turn-odoHeadding())<1.75&&(turn-odoHeadding())>-1.75)){
+        if(!((fore-odoForward())>-.5 && (fore-odoForward())<.5&&(turn-odoHeadding())<1.5&&(turn-odoHeadding())>-1.5)){
             time.reset();
         }
-        if((time.seconds()>.15)&&((fore-odoForward())>-.5 && (fore-odoForward())<.5&&(turn-odoHeadding())<1.75&&(turn-odoHeadding())>-1.75)){
+        if((time.seconds()>.12)&&((fore-odoForward())>-.5 && (fore-odoForward())<.5&&(turn-odoHeadding())<1.5&&(turn-odoHeadding())>-1.5)){
             return (false);
         }
         else{
@@ -338,17 +338,17 @@ public class Drive {
         }
     }
     public void dControlF(){
-        while(timeDF.seconds()>.01){
+        while(timeDF.seconds()>.0333333333333){
             double delta = (odoForward()-prev_df);
-            dControlF=delta*-.2;
+            dControlF=delta*-.4;
             prev_df=odoForward();
             timeDF.reset();
         }
     }
     public void dControlT(){
-        while(timeDT.seconds()>.01){
+        while(timeDT.seconds()>.0333333333333){
             double delta = (odoHeadding()-prev_dt);
-            dControlT=delta*.035;
+            dControlT=delta*.036;
             prev_dt=odoHeadding();
             timeDT.reset();
         }

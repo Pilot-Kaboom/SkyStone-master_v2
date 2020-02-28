@@ -70,13 +70,16 @@ public class TeleOp extends TeleBot {
             }
             if(time.seconds()>110){
                 if(gamepad1.right_stick_y>.1){
-                    intake.park(false,false);
+                    intake.park(false,true);
                 }
                 else if(gamepad1.right_stick_y<-.1){
                     intake.park(true,false);
                 }
+                else if (gamepad1.right_stick_button){
+                    intake.park(false,false);
+                }
                 else{
-                    intake.park(false,true);
+                    intake.park(true,false);
                 }
             }
             else{
@@ -84,7 +87,7 @@ public class TeleOp extends TeleBot {
                     intake.park(true,false);
                 }
                 else if(gamepad1.right_stick_y<-.1){
-                    intake.park(true,false);
+                    intake.park(false,true);
                 }
                 else{
                     intake.park(false,false);

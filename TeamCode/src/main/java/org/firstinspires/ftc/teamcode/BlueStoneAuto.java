@@ -16,18 +16,18 @@ public class BlueStoneAuto extends AutoBot{
         drive.resetFEC();
 //turn toward block
         time.reset();
-        while (opModeIsActive() && rs && drive.nextStep(0,-36.5)){
-            drive.turnforward(0,-36.5,.9, time.seconds());
+        while (opModeIsActive() && rs && drive.nextStep(0,-37.5)){
+            drive.turnforward(0,-35.5,.9, time.seconds());
             arm.clawcon(false,true,false);
 
         }
-        while (opModeIsActive() && cs && drive.nextStep(0,-26.5)){
-            drive.turnforward(0,-26.5,.9, time.seconds());
+        while (opModeIsActive() && cs && drive.nextStep(0,-28.5)){
+            drive.turnforward(0,-28.5,.9, time.seconds());
             arm.clawcon(false,true,false);
 
         }
-        while (opModeIsActive() && ls && drive.nextStep(0,-15.5)){
-            drive.turnforward(0,-15.5,1, time.seconds());
+        while (opModeIsActive() && ls && drive.nextStep(0,-16)){
+            drive.turnforward(0,-16,1, time.seconds());
             arm.clawcon(false,true,false);
 
         }
@@ -36,16 +36,16 @@ public class BlueStoneAuto extends AutoBot{
 
 //go towards block
         time.reset();
-        while (opModeIsActive() && rs && drive.nextStep(19,-36.5)){
-            drive.turnforward(19,-36.5,.7, time.seconds());
+        while (opModeIsActive() && rs && drive.nextStep(19,-38.5)){
+            drive.turnforward(19,-37.5,.7, time.seconds());
 
         }
-        while (opModeIsActive() && cs && drive.nextStep(18,-26.5)){
-            drive.turnforward(18,-26.5,.7, time.seconds());
+        while (opModeIsActive() && cs && drive.nextStep(18,-28.5)){
+            drive.turnforward(18,-28.5,.7, time.seconds());
 
         }
-        while (opModeIsActive() && ls && drive.nextStep(14.5,-15.5)){
-            drive.turnforward(14.5,-15.5,.7, time.seconds());
+        while (opModeIsActive() && ls && drive.nextStep(15,-16)){
+            drive.turnforward(15,-16,.7, time.seconds());
 
         }
         drive.StopMotors();
@@ -58,21 +58,21 @@ public class BlueStoneAuto extends AutoBot{
         drive.StopMotors();
         drive.resetFEC();
 //slowly back away
-        while (opModeIsActive()&& ls && drive.odoForward()>-8.5){
+        while (opModeIsActive()&& ls && drive.odoForward()>-9.5){
             drive.teledrive(-.25,0,0);
         }
-        while (opModeIsActive()&&cs &&drive.odoForward()>-9.5){
+        while (opModeIsActive()&&cs &&drive.odoForward()>-10.5){
             drive.teledrive(-.25,0,0);
         }
-        while (opModeIsActive()&&rs &&drive.odoForward()>-11){
+        while (opModeIsActive()&&rs &&drive.odoForward()>-12){
             drive.teledrive(-.25,0,0);
         }
         drive.StopMotors();
         drive.resetFEC();
 //turn towards bridge
         time.reset();
-        while (opModeIsActive()&& drive.nextStep(0,-90.5)){
-            drive.turnforward(0,-90.5,.8, time.seconds());
+        while (opModeIsActive()&& drive.nextStep(0,-89.5)){
+            drive.turnforward(0,-89.5,.8, time.seconds());
             intake.intake(0);
             intake.lift(true,false,false);
         }
@@ -81,17 +81,17 @@ public class BlueStoneAuto extends AutoBot{
         drive.resetFEC();
 //drive under bridge
         time.reset();
-        while (opModeIsActive() && drive.odoForward()>-65){
+        while (opModeIsActive() && drive.odoForward()>-60){
             arm.clawcon(false,false,true);
-            drive.turnforward(-65,-90,.8, time.seconds());
+            drive.turnforward(-80,-89.5,.8, time.seconds());
         }
 //different drive distance to foundation
         time.reset();
-        while (opModeIsActive() && ls && drive.nextStep(-86,-90)){
+        while (opModeIsActive() && ls && drive.nextStep(-80,-89.5)){
             arm.clawcon(false,false,true);
-            drive.turnforward(-86,-90,.8, time.seconds());
-            if(lift.echight()>-150){
-                lift.manualmanual(-.75);
+            drive.turnforward(-80,89.5,.8, time.seconds());
+            if(lift.echight()>-200){
+                lift.manualmanual(-.85);
             }
             else{
                 lift.manualmanual(0);
@@ -99,11 +99,11 @@ public class BlueStoneAuto extends AutoBot{
             telemetry.addData("lift hight",lift.echight());
 
         }
-        while (opModeIsActive() &&cs&& drive.nextStep(-90,-90)){
+        while (opModeIsActive() &&cs&& drive.nextStep(-84,-89.5)){
             arm.clawcon(false,false,true);
-            drive.turnforward(-90,-90,.8, time.seconds());
-            if(lift.echight()>-150){
-                lift.manualmanual(-.75);
+            drive.turnforward(-84,-89.5,.8, time.seconds());
+            if(lift.echight()>-200){
+                lift.manualmanual(-.85);
             }
             else{
                 lift.manualmanual(0);
@@ -111,11 +111,11 @@ public class BlueStoneAuto extends AutoBot{
             telemetry.addData("lift hight",lift.echight());
 
         }
-        while (opModeIsActive() && rs && drive.nextStep(-94,-90)){
+        while (opModeIsActive() && rs && drive.nextStep(-88,-89.5)){
             arm.clawcon(false,false,true);
-            drive.turnforward(-94,-90,.8, time.seconds());
-            if(lift.echight()>-150){
-                lift.manualmanual(-.75);
+            drive.turnforward(-88,-89.5,.8, time.seconds());
+            if(lift.echight()>-200){
+                lift.manualmanual(-.85);
             }
             else{
                 lift.manualmanual(0);
@@ -142,8 +142,8 @@ public class BlueStoneAuto extends AutoBot{
         while (opModeIsActive() && drive.nextStep(0,0)){
             arm.clawcon(false,false,true);
             drive.turnforward( 0,0,.8, time.seconds());
-            if(lift.echight()>-150){
-                lift.manualmanual(-.75);
+            if(lift.echight()>-200){
+                lift.manualmanual(-.85);
             }
             else{
                 lift.manualmanual(0);
@@ -156,7 +156,7 @@ public class BlueStoneAuto extends AutoBot{
         drive.resetFEC();
         lift.manualmanual(0);
 //drive slowly forward to place the first stone
-        while(opModeIsActive()&& drive.odoForward()<.5){
+        while(opModeIsActive()&& drive.odoForward()<.05){
             drive.teledrive(.15,0,0);
             intake.intake(-.25);
             arm.elbowcon(false,true,false,false,false);
@@ -170,7 +170,7 @@ public class BlueStoneAuto extends AutoBot{
             arm.clawcon(false,true,false);
         }
 //back away from foundation
-        while(opModeIsActive()&& drive.odoForward()>-2){
+        while(opModeIsActive()&& drive.odoForward()>-2.5){
             drive.teledrive(-.25,0,0);
             arm.elbowcon(false,false,true,false,false);
         }
@@ -178,11 +178,11 @@ public class BlueStoneAuto extends AutoBot{
         drive.resetFEC();
 //turn towards quarry
         time.reset();
-        while (opModeIsActive()&& drive.nextStep(0,-85.2)) {
+        while (opModeIsActive()&& drive.nextStep(0,-88)) {
             arm.clawcon(false,false,true);
             lift.manualmanual(.5);
             arm.elbowcon(false,false,true,false,false);
-            drive.turnforward(0, -85.2, .8, time.seconds());
+            drive.turnforward(0, -88, .8, time.seconds());
         }
         drive.StopMotors();
         drive.resetFEC();
@@ -195,25 +195,25 @@ public class BlueStoneAuto extends AutoBot{
         drive.resetFEC();*/
 //go to the quarry for each stone
         time.reset();
-        while (opModeIsActive() && ls && drive.nextStep(50,-86)){
+        while (opModeIsActive() && ls && drive.nextStep(46,-87)){
             arm.clawcon(false,false,true);
-            drive.turnforward(50,-86,.8, time.seconds());
+            drive.turnforward(46,-87,.6, time.seconds());
 
         }
-        while (opModeIsActive() &&cs&& drive.nextStep(58,-86)){
+        while (opModeIsActive() &&cs&& drive.nextStep(56,-87)){
             arm.clawcon(false,false,true);
-            drive.turnforward(58,-86,.8, time.seconds());
+            drive.turnforward(56,-87,.6, time.seconds());
         }
-        while (opModeIsActive() && rs && drive.nextStep(68,-86)){
+        while (opModeIsActive() && rs && drive.nextStep(65,-87)){
             arm.clawcon(false,false,true);
-            drive.turnforward(68,-86,.8, time.seconds());
+            drive.turnforward(65,-87,.6, time.seconds());
         }
         drive.StopMotors();
         drive.resetFEC();
 //turn at 45 to collect stone 2
         time.reset();
         while (opModeIsActive()&& drive.nextStep(0,-45)) {
-            drive.turnforward(0, -45, .9,time.seconds());
+            drive.turnforward(0, -45, .8,time.seconds());
             arm.clawcon(false,true,false);
 
         }
@@ -221,8 +221,8 @@ public class BlueStoneAuto extends AutoBot{
         drive.resetFEC();
 // go fast towards stone    2nd
         time.reset();
-        while (opModeIsActive()&& drive.nextStep(8,-45)) {
-            drive.turnforward(8, -45, .8, time.seconds());
+        while (opModeIsActive()&& drive.nextStep(4,-45)) {
+            drive.turnforward(4, -45, .8, time.seconds());
             intake.intake(1);
         }
         drive.StopMotors();
@@ -235,7 +235,7 @@ public class BlueStoneAuto extends AutoBot{
         drive.StopMotors();
         drive.resetFEC();
 // back away with stone        2nd
-        while (opModeIsActive()&& drive.odoForward()>-11){
+        while (opModeIsActive()&& drive.odoForward()>-15){
             drive.teledrive(-.2,0,0);
             intake.intake(1);
         }
@@ -243,8 +243,8 @@ public class BlueStoneAuto extends AutoBot{
         drive.resetFEC();
 //turn to face bridge        2nd
         time.reset();
-        while (opModeIsActive()&& drive.nextStep(0,-85)) {
-            drive.turnforward(0, -85, 1, time.seconds());
+        while (opModeIsActive()&& drive.nextStep(0,-87)) {
+            drive.turnforward(0, -87, 1, time.seconds());
             intake.intake(0);
             intake.lift(true,false,false);
         }
@@ -253,37 +253,37 @@ public class BlueStoneAuto extends AutoBot{
 //back under bridge        2nd
         time.reset();
         while (opModeIsActive()&& drive.odoForward()>-40) {
-            drive.turnforward(-40, -85, .8, time.seconds());
+            drive.turnforward(-60, -87, .8, time.seconds());
             arm.clawcon(false,false,true);
         }
 //distance to foundation per stone position 2nd
         time.reset();
-        while (opModeIsActive() && ls && drive.nextStep(-60,-85)){
+        while (opModeIsActive() && ls && drive.nextStep(-60,-87)){
             arm.clawcon(false,false,true);
-            drive.turnforward(-60,-85,.8, time.seconds());
-            if(lift.echight()>-150){
-                lift.manualmanual(-.75);
+            drive.turnforward(-60,-87,.8, time.seconds());
+            if(lift.echight()>-200){
+                lift.manualmanual(-.85);
             }
             else{
                 lift.manualmanual(0);
             }
 
-        }while (opModeIsActive() &&cs&& drive.nextStep(-66,-85)){
+        }while (opModeIsActive() &&cs&& drive.nextStep(-66,-87)){
             arm.clawcon(false,false,true);
-            drive.turnforward(-66,-85,.8, time.seconds());
-            if(lift.echight()>-150){
-                lift.manualmanual(-.75);
+            drive.turnforward(-66,-87,.8, time.seconds());
+            if(lift.echight()>-200){
+                lift.manualmanual(-.85);
             }
             else{
                 lift.manualmanual(0);
             }
 
         }
-        while (opModeIsActive() && rs && drive.nextStep(-74,-85)){
+        while (opModeIsActive() && rs && drive.nextStep(-74,-87)){
             arm.clawcon(false,false,true);
-            drive.turnforward(-74,-85,.8, time.seconds());
-            if(lift.echight()>-150){
-                lift.manualmanual(-.75);
+            drive.turnforward(-74,-87,.8, time.seconds());
+            if(lift.echight()>-200){
+                lift.manualmanual(-.85);
             }
             else{
                 lift.manualmanual(0);
@@ -309,8 +309,8 @@ public class BlueStoneAuto extends AutoBot{
         while (opModeIsActive() && drive.nextStep(0,0)){
             arm.clawcon(false,false,true);
             drive.turnforward( 0,0,.8, time.seconds());
-            if(lift.echight()>-150){
-                lift.manualmanual(-.75);
+            if(lift.echight()>-200){
+                lift.manualmanual(-.85);
             }
             else{
                 lift.manualmanual(0);

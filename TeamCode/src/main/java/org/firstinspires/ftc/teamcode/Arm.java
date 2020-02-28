@@ -68,14 +68,14 @@ public class Arm {
         if (elbowback && back) {
             elbow.setPosition(1);
         } else if (elbowback) {
-            elbow.setPosition(.73);
+            elbow.setPosition(.625);
         } else {
-            elbow.setPosition(.19);
+            elbow.setPosition(.1);
         }
         if (init) {
-            elbow.setPosition(.19);
+            elbow.setPosition(.1);
         } else if (out){
-            elbow.setPosition(.9);
+            elbow.setPosition(.91);
         }
     }
     public double elbowPosition(){

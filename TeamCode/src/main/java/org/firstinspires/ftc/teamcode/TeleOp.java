@@ -75,7 +75,7 @@ public class TeleOp extends TeleBot {
                 else if(gamepad1.right_stick_y<-.1){
                     intake.park(true,false);
                 }
-                else if (gamepad1.right_stick_button){
+                else if (gamepad1.right_stick_button || gamepad2.a){
                     intake.park(false,false);
                 }
                 else{

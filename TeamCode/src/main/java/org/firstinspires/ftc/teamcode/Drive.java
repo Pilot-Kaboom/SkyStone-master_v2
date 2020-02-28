@@ -315,7 +315,7 @@ public class Drive {
         else{
 
         }*/
-        turnDifference=(turn-odoHeadding())*-.043;
+        turnDifference=(turn-odoHeadding())*-.041;
 //time and drive
         if(time<.3333333){
             teledrive(((distance+dControlF)*speed*(time*3)),0,((turnDifference+dControlT)*speed*(time*3)));
@@ -348,7 +348,7 @@ public class Drive {
     public void dControlT(){
         while(timeDT.seconds()>.0333333333333){
             double delta = (odoHeadding()-prev_dt);
-            dControlT=delta*.047;
+            dControlT=delta*.042;
             prev_dt=odoHeadding();
             timeDT.reset();
         }
